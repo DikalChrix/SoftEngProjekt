@@ -2,10 +2,10 @@ package MainCode;
 import java.util.Collection.*;
 
 public class Activity {
-        public String Name;
-        public int Time;
-        public Arralist<Employee> Employees;
-        public Arraylist<Employee> Assistants;
+    public String Name;
+    public int Time;
+    public Arralist<Employee> Employees;
+    public Arraylist<Employee> Assistants;
 
 
     public Activity(String name, int hours, Arralist<Employee> employees){
