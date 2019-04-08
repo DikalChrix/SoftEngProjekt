@@ -1,32 +1,19 @@
 package MainCode;
-import java.util.Collection.*;
 
-public class Activity {
+public abstract class Activity {
+
     public String Name;
     public int Time;
-    public Arralist<Employee> Employees;
-    public Arraylist<Employee> Assistants;
+    public date StartDate;
+    public date EndDate;
 
 
-    public Activity(String name, int hours, Arralist<Employee> employees){
+    public Activity(String name, int hours, date startdate, date enddate){
         this.Name = name;
         this.Time = hours;
-        this.Employees = employees;
+        this.StartDate = startdate;
+        this.EndDate = enddate;
     }
 
-    public int RegisterTime(int i){
-        return this.Time = Time-i;
-    }
-
-    public int SetExpectedTime(int hours){
-        return this.Time = hours;
-    }
-
-    public ArrayList<Employee> SetEmployees(Employee employee){
-        return this.Employees.add(employee);
-    }
-
-    public void SeekAssistance(Employee assistant){
-        Employee.AssistanceRequest(assistant);
-    }
+    public abstract int ChangeExpectedTime(int hours);
 }
