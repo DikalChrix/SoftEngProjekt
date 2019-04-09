@@ -15,5 +15,8 @@ public abstract class Activity {
         this.EndDate = enddate;
     }
 
-    public abstract int ChangeExpectedTime(int hours);
+    public int ChangeExpectedTime(int hours){
+        this.Time = hours;
+        return hours;
+    }
 }
