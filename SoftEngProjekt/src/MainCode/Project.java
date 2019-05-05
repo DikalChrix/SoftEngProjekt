@@ -6,17 +6,17 @@ import java.util.Date;
 public class Project {
 
 	// Fields
-	private String ProjectName;
-	private Integer ProjectYearID;
-	private Integer ProjectNumberID;
+	public String ProjectName;
+	public Integer ProjectYearID;
+	public Integer ProjectNumberID;
 	public String ProjectLeaderName;
-	private Date StartDate;
-	private Date EndDate;
-	private ArrayList<PSA> ActivityList;
+	public Date StartDate;
+	public Date EndDate;
+	public ArrayList<PSA> ActivityList;
     public ArrayList<Employee> Employees;
 
 	// Constructor
-	public project(String projectName, Integer projectYearID, Integer projectNumberID, String projectLeaderName, Date startDate, Date endDate,
+	public Project(String projectName, Integer projectYearID, Integer projectNumberID, String projectLeaderName, Date startDate, Date endDate,
                    ArrayList<PSA> activityList, ArrayList<Employee> Employees) {
 
 		this.ProjectName = projectName;
@@ -27,7 +27,6 @@ public class Project {
 		this.EndDate = endDate;
 		this.ActivityList = activityList;
 		this.Employees = Employees;
-
 	}
 
 	// Methods
@@ -44,8 +43,8 @@ public class Project {
 		return ProjectName;
 	}
 
-	public int getProjectID() {
-		return ProjectYearID + ProjectNumberID;
+	public String getProjectID() {
+		return ProjectYearID +" "+ ProjectNumberID;
 	}
 
 	public Date getProjectStartDate() {

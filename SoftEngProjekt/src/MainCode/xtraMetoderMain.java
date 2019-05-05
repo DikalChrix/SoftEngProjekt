@@ -1,15 +1,19 @@
+import MainCode.PSA;
+
 import java.util.Scanner;
 
 public class xtraMetoderMain {
 
 	// Fields
+
+
 	static boolean inputStatus = false;
 
 	static Scanner input = new Scanner(System.in);
 
-	public static void projectChosen(project currentProject) {
+	public static void projectChosen(Project currentProject) {
 
-		System.out.println("Activity overview for project: " + currentProject.name());
+		System.out.println("Activity overview for project: " + currentProject.getProjectID());
 		System.out.println("You now have the following choices:");
 		System.out.println("To go back to 'Project Overview': Please type 'BACK'");
 		System.out.println("To go to specific activity: Please type 'X'");
@@ -21,7 +25,7 @@ public class xtraMetoderMain {
 				inputStatus=true;
 			} else if (inputLine.matches("^[0-9]+$")) {
 				int inputNumber = Integer.parseInt(inputLine);
-				activity currentActivity = findActivity(inputNumber);
+				PSA currentActivity = findActivity(inputNumber);
 				activityChosen(currentActivity);
 				inputStatus=true;
 			} else {
