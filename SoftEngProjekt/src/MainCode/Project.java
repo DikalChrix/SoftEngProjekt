@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Date;
 
-public class project {
+public class Project {
 
 	// Fields
 	private String projectName;
