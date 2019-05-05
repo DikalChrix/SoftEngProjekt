@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class xtraMetoderMain {
 
@@ -91,6 +89,10 @@ public class xtraMetoderMain {
 
 	}
 
+	public static void activityChosen(PSA currentActivity) {
+
+	}
+
 	public static void overview(Employee employeeID) {
 		System.out.println("Welcome to the ProjectPlanner");
 
@@ -132,7 +134,7 @@ public class xtraMetoderMain {
 		}
 	}
 
-	public static void activityChosen(activity currentActivity) {
+	public static void activityChosen(Activity currentActivity) {
 
 	}
 
@@ -151,22 +153,21 @@ public class xtraMetoderMain {
 	public static void setup()
 	{
 		//Laver 10 employees-logins
-		
-		
+
+
 		//Opretter 5 projekter
-		
+
 		//Projekt1:
 		DateType startDate = new DateType("05/05/19");
 		DateType endDate = new DateType("12/05/19");
-		
+
 		//Laver liste med aktiviteter
-		
+
 		//Laver liste med employees
-		
-		Project project1 = new Project(Project1, 2019, 01, Adam, startDate, endDate,  );
-		
-		
-		
+		Project project1 = new Project("Project1", 2019, 01, "Adam", startDate, endDate, /*activitetsliste*/ , /*employeeliste*/);
+
+
+
 	}
 
 	// Login method
@@ -204,29 +205,22 @@ public class xtraMetoderMain {
 		}
 	}
 
-	public static Employee findProjectOfEmployee(String EmployeeID){
-		
+	public static void findProjectOfEmployee(Employee ID){
 		//Find Employee and call Employee.java
-		boolean employeeNotFound = true;
-		while (employeeNotFound==true){
-				if(employeeList.contains(EmployeeID)){
-					for(int i = 0; i < projects.size(); i++) {
-						Project selected = projects.get(i);
-				if(selected.contains.(EmployeeID)){
-					System.out.println(selected.ProjectName+": "+selected.getProjectID());
+		if(employeeList.contains(ID)) {
+			for(int i = 0; i < projects.size(); i++) {
+				if(projectList.get(i).Econtains(ID)){
+					System.out.println(projectList.get(i).ProjectName+": "+projectList.get(i).getProjectID());
 				}
 			}
-					employeeNotFound=false;
 		} else {
-					System.out.println("Employee not found. Please enter employee agian(Remember All CAPS");
-					continue;
-			}
+			System.out.println("Employee not found. Please enter employee agian(Remember All CAPS");
 		}
 	}
 
 	public static Employee findEmployee(String EmployeeID) {
 		for (int i = 0; i <= employeeList.size(); i++) {
-			if (employeeList.get(i).getName().equals(EmployeeID)) {
+			if (employeeList.get(i).Name.equals(EmployeeID)) {
 				return employeeList.get(i);
 			}
 		}

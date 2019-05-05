@@ -8,14 +8,14 @@ public class Project {
     public Integer ProjectYearID;
     public Integer ProjectNumberID;
     public String ProjectLeaderName;
-    public Date StartDate;
-    public Date EndDate;
+    public DateType StartDate;
+    public DateType EndDate;
     public ArrayList<PSA> ActivityList;
     public ArrayList<Employee> Employees;
     public ArrayList<Employee> Assistants;
 
     // Constructor
-    public Project(String projectName, Integer projectYearID, Integer projectNumberID, String projectLeaderName, Date startDate, Date endDate,
+    public Project(String projectName, Integer projectYearID, Integer projectNumberID, String projectLeaderName, DateType startDate, DateType endDate,
                    ArrayList<PSA> activityList, ArrayList<Employee> Employees) {
 
         this.ProjectName = projectName;
@@ -52,11 +52,11 @@ public class Project {
         return ProjectYearID +" "+ ProjectNumberID;
     }
 
-    public Date getProjectStartDate() {
+    public DateType getProjectStartDate() {
         return StartDate;
     }
 
-    public Date getProjectEndDate() {
+    public DateType getProjectEndDate() {
         return EndDate;
     }
 
@@ -104,30 +104,28 @@ public class Project {
         this.ProjectName = newName;
     }
 
-    public void setProjectStartDate(Date newStartDate) {
+    public void setProjectStartDate(DateType newStartDate) {
         this.StartDate = newStartDate;
     }
 
-    public void setProjectEndDate(Date newEndDate) {
+    public void setProjectEndDate(DateType newEndDate) {
         this.EndDate = newEndDate;
     }
 
-    public void setProjectTime(Date newStartDate, Date newEndDate) {
+    public void setProjectTime(DateType newStartDate, DateType newEndDate) {
         StartDate = newStartDate;
         EndDate = newEndDate;
     }
 
     // Find methods
-    public boolean contains(Employee ID){
+    public boolean Econtains(Employee ID){
         return Employees.contains(ID) || Assistants.contains(ID);
     }
 
     public PSA findActivity(String name) {
-        PSA selected;
         for(int i = 0; i < ActivityList.size(); i++) {
-            selected = ActivityList.get(i);
-            if(selected.Name == name) {
-                return selected;
+            if(ActivityList.get(i).Name == name) {
+                return ActivityList.get(i);
             }
         }
         return null;
