@@ -1,75 +1,85 @@
+import MainCode.PSA;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Project {
 
 	// Fields
-	private String projectName;
-	private Integer projectYearID;
-	private Integer projectNumberID;
-	private Date startDate;
-	private Date endDate;
-	private ArrayList<PSA> activityList = new ArrayList<PSA>();
+	private String ProjectName;
+	private Integer ProjectYearID;
+	private Integer ProjectNumberID;
+	public String ProjectLeaderName;
+	private Date StartDate;
+	private Date EndDate;
+	private ArrayList<PSA> ActivityList;
+    public ArrayList<Employee> Employees;
 
 	// Constructor
-	public project(String projectName, Integer projectYearID, Integer projectNumberID, Date startDate, Date endDate,
-			ArrayList<Activities> activityList) {
+	public project(String projectName, Integer projectYearID, Integer projectNumberID, String projectLeaderName, Date startDate, Date endDate,
+                   ArrayList<PSA> activityList, ArrayList<Employee> Employees) {
 
-		this.projectName = projectName;
-		this.projectYearID = projectYearID;
-		this.projectNumberID = projectNumberID;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.activityList = activityList;
+		this.ProjectName = projectName;
+		this.ProjectYearID = projectYearID;
+		this.ProjectNumberID = projectNumberID;
+		this.ProjectLeaderName = projectLeaderName;
+		this.StartDate = startDate;
+		this.EndDate = endDate;
+		this.ActivityList = activityList;
+		this.Employees = Employees;
 
 	}
 
 	// Methods
 	public void addActivity(PSA activity) {
-		activityList.add(activity);
+		ActivityList.add(activity);
 	}
 
 	public void removeActivity(PSA activity) {
-		activityList.remove(activity);
+		ActivityList.remove(activity);
 	}
 
 	// Getter methods
 	public String name() {
-		return projectName;
+		return ProjectName;
 	}
 
 	public int getProjectID() {
-		return projectYearID + projectNumberID;
+		return ProjectYearID + ProjectNumberID;
 	}
 
 	public Date getProjectStartDate() {
-		return startDate;
+		return StartDate;
 	}
 
 	public Date getProjectEndDate() {
-		return endDate;
+		return EndDate;
 	}
 
 	public String getProjectActivities() {
-		return activityList.toString();
+		return ActivityList.toString();
 	}
 
 	// Setter methods
 	public void setProjectName(String newName) {
-		this.projectName = newName;
+		this.ProjectName = newName;
 	}
 
 	public void setProjectStartDate(Date newStartDate) {
-		this.startDate = newStartDate;
+		this.StartDate = newStartDate;
 	}
 
 	public void setProjectEndDate(Date newEndDate) {
-		this.endDate = newEndDate;
+		this.EndDate = newEndDate;
 	}
 
 	public void setProjectTime(Date newStartDate, Date newEndDate) {
-		startDate = newStartDate;
-		endDate = newEndDate;
+		StartDate = newStartDate;
+		EndDate = newEndDate;
 	}
+
+	public boolean contains(Employee ID){
+	    return Employees.contains(ID);
+    }
 
 }
