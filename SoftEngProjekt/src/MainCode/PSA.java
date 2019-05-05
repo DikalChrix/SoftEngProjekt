@@ -6,7 +6,7 @@ public class PSA extends Activity{
     public ArrayList<Employee> Assistants;
     private ArrayList<Integer> TimeSpent;
 
-    public PSA(String name, int hours, date startdate, date enddate, ArrayList<Employee> employees){
+    public PSA(String name, int hours, DateType startdate, DateType enddate, ArrayList<Employee> employees){
         super(name, hours, startdate, enddate);
         super.Time = hours;
         this.Employees = employees;
@@ -29,16 +29,16 @@ public class PSA extends Activity{
         return Spent();
     }
 
-    public ArrayList<Employee> SeekAssistance(Employee assistant){
-        return Employee.AssistanceRequest(assistant);
-    }
-
     public void AddEmployee(Employee employee){
         Employees.add(employee);
     }
 
     public void RemoveEmployee(Employee employee){
         Employees.remove(employee);
+    }
+
+    public void RemoveHelp(Employee employee) {
+        Assistants.remove(employee);
     }
 
     // Getter methods

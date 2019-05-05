@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Employee {
 
-    private int ActivityNames;
     public String Name;
     public ArrayList<NSA> Activities;
 
@@ -10,9 +9,7 @@ public class Employee {
         this.Name=Name;
     }
 
-    public void AddNonActivity(String name, int hours, date startdate, date enddate) {
-        ActivityNames++;
-        NSA ActivityNames = new NSA(name, hours, startdate, enddate, Name);
-        Activities.add(ActivityNames);
+    public void AddNonActivity(NSA name) {
+        Activities.add(name);
     }
 }

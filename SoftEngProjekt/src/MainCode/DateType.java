@@ -4,11 +4,11 @@ public class DateType {
 	private String date;
 
 	public DateType (String date) {
-			
-			this.date=date;
-			datechecker();
-			
-		}
+
+		this.date=date;
+		datechecker();
+
+	}
 
 	public boolean datechecker() {
 
@@ -51,7 +51,7 @@ public class DateType {
 		int year = Integer.parseInt(date.split("/")[2]);
 		return year;
 	}
-	
+
 	public String toString()
 	{
 		return date;
