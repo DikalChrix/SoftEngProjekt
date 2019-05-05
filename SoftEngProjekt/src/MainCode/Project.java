@@ -75,8 +75,10 @@ public class Project {
             LoggedTime += selected.Spent();
         }
         int TimeLeft = ExpectedTime - LoggedTime;
+        // Prints project times
         System.out.printf("%-20s %-20s %-20s","Expected Time: " + ExpectedTime, "Logged Time: " + LoggedTime, "Time Left: " + TimeLeft);
         System.out.println("\r\n");
+        // Prints employees in project
         System.out.printf("%42s", "Employees in project:\r\n");
         for(int i = 0; i < Employees.size(); i++) {
             Employee selected = Employees.get(i);
@@ -85,6 +87,7 @@ public class Project {
                 System.out.println("");
             }
         }
+        // Prints assistants in project
         if(Assistants.size() != 0) {
             System.out.println("\r\n");
             System.out.printf("%42s", "Assistants in project:\r\n");
@@ -118,7 +121,7 @@ public class Project {
 
     // Find methods
     public boolean contains(Employee ID){
-        return Employees.contains(ID);
+        return Employees.contains(ID) || Assistants.contains(ID);
     }
 
     public PSA findActivity(String name) {
