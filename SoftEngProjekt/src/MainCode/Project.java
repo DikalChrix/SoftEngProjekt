@@ -1,3 +1,5 @@
+import MainCode.PSA;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,6 +14,7 @@ public class Project {
     public Date EndDate;
     public ArrayList<PSA> ActivityList;
     public ArrayList<Employee> Employees;
+    public ArrayList<Employee> Assistants;
 
     // Constructor
     public Project(String projectName, Integer projectYearID, Integer projectNumberID, String projectLeaderName, Date startDate, Date endDate,
@@ -36,6 +39,12 @@ public class Project {
         ActivityList.remove(activity);
     }
 
+    public void addHelp(Employee ID) {
+        if(!Assistants.contains(ID) && !Employees.contains(ID)) {
+            Assistants.add(ID);
+        }
+    }
+
     // Getter methods
     public String name() {
         return ProjectName;
@@ -57,24 +66,6 @@ public class Project {
         return ActivityList;
     }
 
-    // Setter methods
-    public void setProjectName(String newName) {
-        this.ProjectName = newName;
-    }
-
-    public void setProjectStartDate(Date newStartDate) {
-        this.StartDate = newStartDate;
-    }
-
-    public void setProjectEndDate(Date newEndDate) {
-        this.EndDate = newEndDate;
-    }
-
-    public void setProjectTime(Date newStartDate, Date newEndDate) {
-        StartDate = newStartDate;
-        EndDate = newEndDate;
-    }
-
     public void getReport() {
         int ExpectedTime = 0;
         int LoggedTime = 0;
@@ -94,8 +85,38 @@ public class Project {
                 System.out.println("");
             }
         }
+        if(Assistants.size() != 0) {
+            System.out.println("\r\n");
+            System.out.printf("%42s", "Assistants in project:\r\n");
+            for(int i = 0; i < Assistants.size(); i++) {
+                Employee selected = Assistants.get(i);
+                System.out.printf("%-26s", selected.Name);
+                if((i+1)%3 == 0) {
+                    System.out.println("");
+                }
+            }
+        }
     }
 
+    // Setter methods
+    public void setProjectName(String newName) {
+        this.ProjectName = newName;
+    }
+
+    public void setProjectStartDate(Date newStartDate) {
+        this.StartDate = newStartDate;
+    }
+
+    public void setProjectEndDate(Date newEndDate) {
+        this.EndDate = newEndDate;
+    }
+
+    public void setProjectTime(Date newStartDate, Date newEndDate) {
+        StartDate = newStartDate;
+        EndDate = newEndDate;
+    }
+
+    // Find methods
     public boolean contains(Employee ID){
         return Employees.contains(ID);
     }
@@ -110,5 +131,4 @@ public class Project {
         }
         return null;
     }
-
 }
