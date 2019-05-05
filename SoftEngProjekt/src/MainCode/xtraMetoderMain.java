@@ -8,9 +8,13 @@ public class xtraMetoderMain {
 	static boolean inputStatus = false;
 	static boolean projectLeader = false;
 	static Scanner input = new Scanner(System.in);
-	static ArrayList<project> projectList = new ArrayList<project>();
+	static ArrayList<Project> projectList = new ArrayList<Project>();
+	static ArrayList<Employee> employeeList = new ArrayList<Employee>();
+	static Employee currentEmployeeID;
+	static ArrayList<Employee> employees;
+	static ArrayList<Project> projects;
 
-	public static void projectChosen(project currentProject) {
+	public static void projectChosen(Project currentProject) {
 
 		System.out.println("Overview for project: " + currentProject.getProjectID());
 		System.out.println(
@@ -40,8 +44,6 @@ public class xtraMetoderMain {
 			System.out.println("To change the expected end date: Please type ENDDATE:dd/mm/yy");
 
 			// De nedenstående kommandoer mangler at blive implementeret
-			System.out.println("To assign an employee to the project: Please type ASSIGN 'employeeID'");
-			System.out.println("To unassign an employee to the project: Please type UNASSIGN 'employeeID'");
 			System.out.println("To create an activity: Please type 'NEWACT'");
 
 		}
@@ -49,7 +51,7 @@ public class xtraMetoderMain {
 		while (inputStatus == false) {
 			String inputLine = input.nextLine();
 			if (inputLine.equalsIgnoreCase("BACK")) {
-				overview();
+				overview(currentEmployeeID);
 				inputStatus = true;
 			} else if (inputLine.matches("^[a-z]{1,}+$")) {
 				PSA currentActivity = currentProject.findActivity(inputLine);
@@ -82,7 +84,6 @@ public class xtraMetoderMain {
 				currentProject.setProjectEndDate(newEndDate);
 
 				System.out.println("The expected end date was succesfully changed to: " + newEndDate.toString());
-
 			} else {
 				System.out.println("Wrong format, please try again");
 			}
@@ -90,7 +91,7 @@ public class xtraMetoderMain {
 
 	}
 
-	public static void overview() {
+	public static void overview(Employee employeeID) {
 		System.out.println("Welcome to the ProjectPlanner");
 
 		if (projectLeader == true) {
@@ -117,7 +118,7 @@ public class xtraMetoderMain {
 				int yearID = Integer.parseInt(yearIDString);
 				int numID = Integer.parseInt(numIDString);
 
-				project currentProject = findProject(yearIDString, numIDString);
+				Project currentProject = findProject(yearIDString, numIDString);
 				if (currentProject == null) {
 					System.out.println("A project with that ID does not exist. Please try again");
 					continue;
@@ -137,7 +138,7 @@ public class xtraMetoderMain {
 
 	// Metode, som søger gennem projektlisten og returnerer rigtigt projekt ud fra
 	// ID
-	public static project findProject(String yearID, String numID) {
+	public static Project findProject(String yearID, String numID) {
 		for (int i = 0; i <= projectList.size(); i++) {
 			if (projectList.get(i).getProjectID().equals(yearID + " " + numID)) {
 				return projectList.get(i);
@@ -146,7 +147,7 @@ public class xtraMetoderMain {
 		return null;
 	}
 
-	// Setup, fylder programmet op med data, således at den ikke er tom
+	// Setup, fills program with content
 	public static void setup()
 	{
 		//Laver 10 employees-logins
@@ -162,42 +163,73 @@ public class xtraMetoderMain {
 		
 		//Laver liste med employees
 		
-		project project1 = new project(Project1, 2019, 01, Adam, startDate, endDate,  );
+		Project project1 = new Project(Project1, 2019, 01, Adam, startDate, endDate,  );
 		
 		
 		
 	}
 
-	// Login metode
-	public static void login(){
-		
+	// Login method
+	public static void login() {
+
 		System.out.println("Plese identify yourself by typing your ID");
-		
+
 		while (inputStatus == false) {
-			
+
 			String inputLine = input.nextLine();
-		
-			if(inputLine.matches("^[0-9]{6}$"))
-			{
-				
-				currentEmployeeID =findEmployee(inputLine);
-				
-				if(currentEmployeeID==)
-				
-				
-				inputStatus=true;
-			}
-			else {
+
+			if (inputLine.matches("^[0-9]{6}$")) {
+
+				currentEmployeeID = findEmployee(inputLine);
+
+				if (currentEmployeeID == null) {
+					System.out.println("An employee with that ID does not exist in the system. Please try again");
+					continue;
+				} else {
+					overview(currentEmployeeID);
+					inputStatus = true;
+				}
+
+			} else {
 				System.out.println("Wrong format, please try again");
 			}
-			
+
 		}
-		
+
 	}
 
 	public static void print(@SuppressWarnings("rawtypes") ArrayList a) {
 		for (int i = 0; i < a.size(); i++) {
 			System.out.println(a.get(i));
 		}
+	}
+
+	public static Employee findProjectOfEmployee(String EmployeeID){
+		
+		//Find Employee and call Employee.java
+		boolean employeeNotFound = true;
+		while (employeeNotFound==true){
+				if(employeeList.contains(EmployeeID)){
+					for(int i = 0; i < projects.size(); i++) {
+						Project selected = projects.get(i);
+				if(selected.contains.(EmployeeID)){
+					System.out.println(selected.ProjectName+": "+selected.getProjectID());
+				}
+			}
+					employeeNotFound=false;
+		} else {
+					System.out.println("Employee not found. Please enter employee agian(Remember All CAPS");
+					continue;
+			}
+		}
+	}
+
+	public static Employee findEmployee(String EmployeeID) {
+		for (int i = 0; i <= employeeList.size(); i++) {
+			if (employeeList.get(i).getName().equals(EmployeeID)) {
+				return employeeList.get(i);
+			}
+		}
+		return null;
 	}
 }
