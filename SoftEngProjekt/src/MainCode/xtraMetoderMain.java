@@ -3,14 +3,11 @@ import java.util.*;
 public class xtraMetoderMain {
 
 	// Fields
-	static boolean inputStatus = false;
 	static boolean projectLeader = false;
 	static Scanner input = new Scanner(System.in);
 	static ArrayList<Project> projectList = new ArrayList<Project>();
 	static ArrayList<Employee> employeeList = new ArrayList<Employee>();
 	static Employee currentEmployeeID;
-	static ArrayList<Employee> employees;
-	static ArrayList<Project> projects;
 
 	public static void projectChosen(Project currentProject) {
 
@@ -45,8 +42,8 @@ public class xtraMetoderMain {
 			System.out.println("To create an activity: Please type 'NEWACT'");
 
 		}
-
-		while (inputStatus == false) {
+		boolean inputStatus = false;
+		while (!inputStatus) {
 			String inputLine = input.nextLine();
 			if (inputLine.equalsIgnoreCase("BACK")) {
 				overview(currentEmployeeID);
@@ -61,7 +58,7 @@ public class xtraMetoderMain {
 					inputStatus = true;
 				}
 
-			} else if (projectLeader == true && inputLine
+			} else if (projectLeader && inputLine
 					.matches("STARTDATE:^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+$")) {
 
 				// Mulig test, som sørger for at startdate er før enddate
@@ -82,14 +79,14 @@ public class xtraMetoderMain {
 				currentProject.setProjectEndDate(newEndDate);
 
 				System.out.println("The expected end date was succesfully changed to: " + newEndDate.toString());
+			} else if (projectLeader == true && inputLine.matches("NEWACT")) {
+
+				newActivity(currentProject);
+
 			} else {
 				System.out.println("Wrong format, please try again");
 			}
 		}
-
-	}
-
-	public static void activityChosen(PSA currentActivity) {
 
 	}
 
@@ -108,8 +105,8 @@ public class xtraMetoderMain {
 		// Metoder som printer alle projekter som man normal employee af
 
 		System.out.println("To go to a specific project: Please type 'YEARID NUMUD'");
-
-		while (inputStatus == false) {
+		boolean inputStatus =false;
+		while (!inputStatus) {
 			String inputLine = input.nextLine();
 
 			if (inputLine.matches("^[0-9]{6}$")) {
@@ -134,7 +131,7 @@ public class xtraMetoderMain {
 		}
 	}
 
-	public static void activityChosen(Activity currentActivity) {
+	public static void activityChosen(PSA currentActivity) {
 
 	}
 
@@ -151,30 +148,30 @@ public class xtraMetoderMain {
 
 	// Setup, fills program with content
 	public static void setup()
-	{
-		//Laver 10 employees-logins
+		{
+			//Laver 10 employees-logins
 
 
-		//Opretter 5 projekter
+			//Opretter 5 projekter
 
-		//Projekt1:
-		DateType startDate = new DateType("05/05/19");
-		DateType endDate = new DateType("12/05/19");
+			//Projekt1:
+			DateType startDate = new DateType("05/05/19");
+			DateType endDate = new DateType("12/05/19");
 
-		//Laver liste med aktiviteter
+			//Laver liste med aktiviteter
 
-		//Laver liste med employees
-		Project project1 = new Project("Project1", 2019, 01, "Adam", startDate, endDate, /*activitetsliste*/ , /*employeeliste*/);
+			//Laver liste med employees
+			Project project1 = new Project("Project1", 2019, 01, "Adam", startDate, endDate, /*activitetsliste*/ , /*employeeliste*/);
 
 
 
-	}
+		}
 
 	// Login method
 	public static void login() {
 
 		System.out.println("Plese identify yourself by typing your ID");
-
+		boolean inputStatus = false;
 		while (inputStatus == false) {
 
 			String inputLine = input.nextLine();
@@ -205,12 +202,12 @@ public class xtraMetoderMain {
 		}
 	}
 
-	public static void findProjectOfEmployee(Employee ID){
-		//Find Employee and call Employee.java
-		if(employeeList.contains(ID)) {
-			for(int i = 0; i < projects.size(); i++) {
-				if(projectList.get(i).Econtains(ID)){
-					System.out.println(projectList.get(i).ProjectName+": "+projectList.get(i).getProjectID());
+	public static void findProjectOfEmployee(Employee ID) {
+		// Find Employee and call Employee.java
+		if (employeeList.contains(ID)) {
+			for (int i = 0; i < projects.size(); i++) {
+				if (projectList.get(i).Econtains(ID)) {
+					System.out.println(projectList.get(i).ProjectName + ": " + projectList.get(i).getProjectID());
 				}
 			}
 		} else {
@@ -225,5 +222,117 @@ public class xtraMetoderMain {
 			}
 		}
 		return null;
+	}
+
+
+	public static void newActivity(project currentProject) {
+		// Local fields
+		String nameActivity;
+		int hoursActivity;
+		DateType activityStartDate;
+		DateType activityEndDate;
+		ArrayList<Employee> employeeListActivity = new ArrayList<Employee>();
+
+		System.out.print("What is the name of the activity?");
+		boolean inputStatus = false;
+		while (inputStatus == false) {
+			String inputLine = input.nextLine();
+			if (!findActivity(inputLine) == null) {
+				System.out.println("An activity with this name already exists. Please try again");
+				continue;
+			} else {
+				nameActivity = inputLine;
+				inputStatus = true;
+			}
+		}
+
+		System.out.print("On which date should the activity start?");
+		inputStatus = false;
+		while (inputStatus == false) {
+			String inputLine = input.nextLine();
+
+			if (inputLine.matches(
+					"^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
+				activityStartDate = new DateType(inputLine);
+			} else {
+				System.out.println("Wrong date format, please try again");
+				continue;
+			}
+
+			inputStatus = true;
+		}
+
+		System.out.print("On which date should the activity end?");
+		inputStatus = false;
+		while (inputStatus == false) {
+			String inputLine = input.nextLine();
+
+			if (inputLine.matches(
+					"^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
+				activityEndDate = new DateType(inputLine);
+			} else {
+				System.out.println("Wrong date format, please try again");
+				continue;
+			}
+
+			inputStatus = true;
+		}
+
+		System.out.print("How many hours of work should the activity contain?");
+		inputStatus = false;
+		while (inputStatus == false) {
+			String inputLine = input.nextLine();
+			if (inputLine.matches("^[0-9]{1,}+$")) {
+				hoursActivity = Integer.parseInt(inputLine);
+				inputStatus = true;
+			} else {
+				System.out.println("Wrong format, please try again");
+				continue;
+			}
+		}
+
+		System.out.print("How many employees should be added to the project?");
+		inputStatus = false;
+		int employeesNumberActivity;
+		while (inputStatus == false) {
+			String inputLine = input.nextLine();
+			if (inputLine.matches("^[0-9]{2}+$")) {
+				employeesNumberActivity = Integer.parseInt(inputLine);
+				inputStatus = true;
+			} else {
+				System.out.println("Wrong format, please try again");
+			}
+		}
+
+		System.out.print("Please type the ID of the employees on each line:");
+		for (int i = 0; i < employeesNumberActivity; i++) {
+			inputStatus = false;
+			while (inputStatus = false) {
+				String inputLine = input.nextLine();
+				if (inputLine.matches("^[A-Z]{3}+$")) {
+
+					// Cheks if this employee actually exists:
+					if (findEmployee(inputLine) == null) {
+						System.out.println("This employee does not exist. Please try again");
+						continue;
+					} else {
+						employeeListActivity.add(findEmployee(inputLine));
+						System.out.println("The employee with ID " + inputLine + " was succesfully added");
+					}
+
+					inputStatus = true;
+				} else {
+					System.out.println("Wrong format, please try again");
+				}
+
+				// Creates activity with the given information:
+				PSA activityPlaceholder = new PSA(nameActivity, hoursActivity, activityStartDate, activityEndDate,
+						employeeListActivity);
+				currentProject.addActivity(activityPlaceholder);
+
+				System.out.print("The activity was succesfully added to the project");
+
+			}
+		}
 	}
 }
