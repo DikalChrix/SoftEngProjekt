@@ -49,6 +49,4 @@ public class PSA extends Activity{
         }
         return timespent;
     }
-
-
 }

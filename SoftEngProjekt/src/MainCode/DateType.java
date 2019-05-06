@@ -24,7 +24,7 @@ public class DateType {
 			System.out.println("Incorrect date, try again");
 		} else if (month > 12) {
 			System.out.println("Incorrect date, try again");
-		} else if (date.matches("^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+$")) {
+		} else if (date.matches("^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{4}+$")) {
 			startdate = true;
 		} else {
 			System.out.println("Incorrect date, try again");

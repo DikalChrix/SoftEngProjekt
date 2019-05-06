@@ -5,8 +5,8 @@ public class Project {
 
     // Fields
     public String ProjectName;
-    public Integer ProjectYearID;
-    public Integer ProjectNumberID;
+    public String ProjectYearID;
+    public String ProjectNumberID;
     public String ProjectLeaderName;
     public DateType StartDate;
     public DateType EndDate;
@@ -15,7 +15,7 @@ public class Project {
     public ArrayList<Employee> Assistants;
 
     // Constructor
-    public Project(String projectName, Integer projectYearID, Integer projectNumberID, String projectLeaderName, DateType startDate, DateType endDate,
+    public Project(String projectName, String projectYearID, String projectNumberID, String projectLeaderName, DateType startDate, DateType endDate,
                    ArrayList<PSA> activityList, ArrayList<Employee> Employees) {
 
         this.ProjectName = projectName;
@@ -49,7 +49,7 @@ public class Project {
     }
 
     public String getProjectID() {
-        return ProjectYearID +" "+ ProjectNumberID;
+        return ProjectYearID + ProjectNumberID;
     }
 
     public DateType getProjectStartDate() {
@@ -129,5 +129,12 @@ public class Project {
             }
         }
         return null;
+    }
+
+    public boolean isProjectLeader(Employee EmployeeID) {
+        if(EmployeeID.Name.equals(ProjectLeaderName)) {
+            return true;
+        }
+        return false;
     }
 }
