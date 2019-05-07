@@ -1,14 +1,14 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PSA extends Activity{
     public ArrayList<Employee> Employees;
     public ArrayList<Employee> Assistants;
     private ArrayList<Integer> TimeSpent;
+    int Time;
 
     public PSA(String name, int hours, DateType startdate, DateType enddate, ArrayList<Employee> employees){
-        super(name, hours, startdate, enddate);
-        super.Time = hours;
+        super(name, startdate, enddate);
+        this.Time = hours;
         this.Employees = employees;
         this.TimeSpent = new ArrayList<Integer>();
     }
@@ -56,5 +56,10 @@ public class PSA extends Activity{
             timespent += TimeSpent.get(i);
         }
         return timespent;
+    }
+
+    public int ChangeExpectedTime(int hours){
+        this.Time = hours;
+        return hours;
     }
 }

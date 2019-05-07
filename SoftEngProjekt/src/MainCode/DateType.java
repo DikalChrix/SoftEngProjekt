@@ -16,7 +16,6 @@ public class DateType {
 		// defines our three start-date integers
 		int day = Integer.parseInt(date.split("/")[0]);
 		int month = Integer.parseInt(date.split("/")[1]);
-		int year = Integer.parseInt(date.split("/")[2]);
 
 		// Checks if the start-date is right
 		if (day > 31) {
