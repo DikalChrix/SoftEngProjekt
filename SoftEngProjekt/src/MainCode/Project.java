@@ -70,7 +70,7 @@ public class Project {
         for(int i = 0; i < ActivityList.size(); i++) {
             PSA selected = ActivityList.get(i);
             ExpectedTime += selected.Time;
-            LoggedTime += selected.Spent();
+            LoggedTime += selected.spent();
         }
         int TimeLeft = ExpectedTime - LoggedTime;
         // Prints project times
@@ -122,19 +122,8 @@ public class Project {
     }
 
     // Find methods
-    public boolean Econtains(Employee ID){
+    public boolean eContains(Employee ID){
         return Employees.contains(ID) || Assistants.contains(ID);
-    }
-
-    public PSA findActivity(String name) {
-        if(ActivityList.size() > 0) {
-            for(int i = 0; i < ActivityList.size(); i++) {
-                if(ActivityList.get(i).Name == name) {
-                    return ActivityList.get(i);
-                }
-            }
-        }
-        return null;
     }
 
     public boolean isProjectLeader(Employee EmployeeID) {

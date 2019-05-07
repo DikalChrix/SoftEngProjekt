@@ -24,25 +24,33 @@ public class PSA extends Activity{
         }
     }
 
-    public int RegisterTime(int i){
+    public int registerTime(int i){
         TimeSpent.add(i);
-        return Spent();
+        return spent();
     }
 
-    public void AddEmployee(Employee employee){
+    public void addEmployee(Employee employee){
         Employees.add(employee);
     }
 
-    public void RemoveEmployee(Employee employee){
+    public void removeEmployee(Employee employee){
         Employees.remove(employee);
     }
 
-    public void RemoveHelp(Employee employee) {
+    public void removeHelp(Employee employee) {
         Assistants.remove(employee);
     }
 
+    public boolean eContains(Employee employee) {
+        return Employees.contains(employee);
+    }
+
+    public boolean hContains(Employee employee) {
+        return Assistants.contains(employee);
+    }
+
     // Getter methods
-    public int Spent() {
+    public int spent() {
         int timespent = 0;
         for(int i = 0; i < TimeSpent.size(); i++) {
             timespent += TimeSpent.get(i);
