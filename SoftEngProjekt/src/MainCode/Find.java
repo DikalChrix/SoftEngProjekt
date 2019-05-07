@@ -20,7 +20,7 @@ public class Find {
     public static Project project(String yearID, String numID) {
         if(Main.projectList.size() > 0) {
             for (int i = 0; i < Main.projectList.size(); i++) {
-                if (Main.projectList.get(i).getProjectID().equals(yearID + numID)) {
+                if (Main.projectList.get(i).getProjectID().equalsIgnoreCase(yearID + numID)) {
                     return Main.projectList.get(i);
                 }
             }
@@ -40,7 +40,7 @@ public class Find {
 
     public static Employee employee(String EmployeeID) {
         for (int i = 0; i < Main.employeeList.size(); i++) {
-            if (Main.employeeList.get(i).Name.equals(EmployeeID)) {
+            if (Main.employeeList.get(i).Name.equalsIgnoreCase(EmployeeID)) {
                 return Main.employeeList.get(i);
             }
         }
@@ -50,7 +50,7 @@ public class Find {
     public static PSA activity(Project currentProject,String name) {
         if(currentProject.ActivityList.size() > 0) {
             for(int i = 0; i < currentProject.ActivityList.size(); i++) {
-                if(currentProject.ActivityList.get(i).Name.equals(name)) {
+                if(currentProject.ActivityList.get(i).Name.equalsIgnoreCase(name)) {
                     return currentProject.ActivityList.get(i);
                 }
             }

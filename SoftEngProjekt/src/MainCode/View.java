@@ -54,6 +54,7 @@ public class View {
         System.out.println("To go to a specific project: Please type the project ID");
         System.out.println("To create an activity: Please type 'CREATE'");
         System.out.println("To log out: Please type 'LOGOUT'");
+        System.out.println("To exit program: Please tyoe 'EXIT'");
         boolean inputStatus =false;
         while (!inputStatus) {
             String inputLine = Main.input.nextLine();
@@ -75,10 +76,14 @@ public class View {
                     Choose.project(currentProject, employeeID);
                     inputStatus = true;
                 }
-            } else if(inputLine.equals("CREATE")) {
+            } else if(inputLine.equalsIgnoreCase("CREATE")) {
                 Create.newNSA(employeeID);
-            } else if(inputLine.equals("LOGOUT")) {
+            } else if(inputLine.equalsIgnoreCase("LOGOUT")) {
                 login();
+            } else if (inputLine.equalsIgnoreCase("EXIT")) {
+
+                inputStatus = true;
+
             } else {
                 System.out.println("Wrong format, please try again");
             }

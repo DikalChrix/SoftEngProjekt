@@ -8,15 +8,15 @@ public class Choose {
         boolean inputStatus = false;
 
         while(!inputStatus) {
+            System.out.println("Startdate of activity: "+currentActivity.StartDate+"\t Enddate of activity: "+currentActivity.EndDate);
+            Datemethods.dateDiff(currentActivity.StartDate, currentActivity.EndDate);
+
+            int timeleft = currentActivity.Time-currentActivity.spent();
+            System.out.println("Expected hours of work: "+currentActivity.Time+"\t Hours spent: "+currentActivity.spent()+"\t Hours left: "+ timeleft);
+
             if(!projectLeader)
                 System.out.println("To add hours to this activity type: 'ADD'");
             if(projectLeader) {
-                System.out.println("Startdate of activity: "+currentActivity.StartDate+"\t Enddate of activity: "+currentActivity.EndDate);
-                Datemethods.dateDiff(currentActivity.StartDate, currentActivity.EndDate);
-
-                int timeleft = currentActivity.spent()-currentActivity.Time;
-                System.out.println("Expected time of activity: "+currentActivity.Time+"\t Time spent: "+currentActivity.spent()+"\t Time left: "+ timeleft);
-
                 System.out.println("List of employees in activity: " + currentActivity.Name);
                 if(currentActivity.Employees.size() > 0) {
                     for(int i = 0; i < currentActivity.Employees.size(); i++) {
@@ -27,38 +27,42 @@ public class Choose {
                     System.out.println("This activity has no employees assigned");
                 }
                 System.out.println("To change expected number of hours type: 'CHANGE'");
-                System.out.println("To assign an employee to the activity type: 'ASSIGN");
+                System.out.println("To assign an employee to the activity type: 'ASSIGN'");
                 System.out.println("To unassign an employee from the activity type: 'UNASSIGN'");
             }
             System.out.println("To ask for assistance type: 'HELP'");
             System.out.println("To go back to activity select type: 'BACK'");
+            System.out.println("To exit program: Please type 'EXIT'");
 
             inputLine = Main.input.nextLine();
 
             // Add hours to activity
-            if(inputLine.equals("ADD") && !projectLeader) {
+            if(inputLine.equalsIgnoreCase("ADD") && !projectLeader) {
                 Change.add(currentActivity, employeeID, currentProject, projectLeader);
                 // Get assistance
-            } else if(inputLine.equals("HELP")) {
+            } else if(inputLine.equalsIgnoreCase("HELP")) {
                 Change.getHelp(currentActivity, currentProject, projectLeader, employeeID);
-            } else if(inputLine.equals("BACK")) {
+            } else if(inputLine.equalsIgnoreCase("BACK")) {
                 Choose.project(currentProject,employeeID);
+            } else if (inputLine.equalsIgnoreCase("EXIT")) {
+
+                inputStatus = true;
             }
 
             if(projectLeader) {
 
                 // Change expected hours
-                if(inputLine.equals("CHANGE")) {
+                if(inputLine.equalsIgnoreCase("CHANGE")) {
                     Change.changeHours(currentActivity, currentProject, projectLeader, employeeID);
                 }
 
                 // Assign employee
-                if(inputLine.equals("ASSIGN")) {
+                if(inputLine.equalsIgnoreCase("ASSIGN")) {
                     Change.assign(currentActivity, currentProject, projectLeader, employeeID);
                 }
 
                 // Unassign employee
-                if(inputLine.equals("UNASSIGN")) {
+                if(inputLine.equalsIgnoreCase("UNASSIGN")) {
                     Change.unAssign(currentActivity, currentProject, projectLeader, employeeID);
                 }
             }
@@ -102,15 +106,21 @@ public class Choose {
             System.out.println("To change the expected end date: Please type ENDDATE");
             System.out.println("To generate a report: Please type 'REPORT'");
             System.out.println("To create an activity: Please type 'NEWACT'");
-
         }
+
+        System.out.println("To exit program: Please type 'EXIT'");
+
         boolean inputStatus = false;
         while (!inputStatus) {
             String inputLine = Main.input.nextLine();
             if (inputLine.equalsIgnoreCase("BACK")) {
                 View.overview(Main.currentEmployeeID);
                 inputStatus = true;
-            } else if (Main.projectLeader && inputLine.equals("ENDDATE")) {
+            } else if (inputLine.equalsIgnoreCase("EXIT")) {
+
+                inputStatus = true;
+
+            } else if (Main.projectLeader && inputLine.equalsIgnoreCase("ENDDATE")) {
 
                 Change.enddate(currentProject, employeeID, currentProject.StartDate);
 
@@ -118,14 +128,16 @@ public class Choose {
 
                 Create.newActivity(currentProject, employeeID);
 
-            } else if (Main.projectLeader == true && inputLine.equals("REPORT")) {
+            } else if (Main.projectLeader == true && inputLine.equalsIgnoreCase("REPORT")) {
 
                 currentProject.getReport();
+                System.out.println("");
+                project(currentProject, employeeID);
 
             } else if (inputLine.matches("^[a-z,A-Z,0-9]+$")) {
                 PSA currentActivity = Find.activity(currentProject, inputLine);
                 if (currentActivity == null) {
-                    System.out.print("The activity does not exist, please try again");
+                    System.out.println("The activity does not exist, please try again");
                 } else {
                     // Choose activity
                     if(Main.employeeActivities.contains(currentActivity) || Main.projectLeader) {

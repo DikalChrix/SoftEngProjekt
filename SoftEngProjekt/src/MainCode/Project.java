@@ -77,7 +77,7 @@ public class Project {
         System.out.println("");
         Datemethods.dateDiff(StartDate,EndDate);
         System.out.println("");
-        System.out.printf("%-20s %-20s %-20s","Expected Time: " + ExpectedTime, "Logged Time: " + LoggedTime, "Time Left: " + TimeLeft);
+        System.out.printf("%-20s %-20s %-20s","Expected Hours: " + ExpectedTime, "Logged Hours: " + LoggedTime, "Hours Left: " + TimeLeft);
         System.out.println("\r\n");
         // Prints employees in project
         System.out.printf("%42s", "Employees in project:\r\n");
@@ -100,6 +100,7 @@ public class Project {
                 }
             }
         }
+        System.out.println("");
     }
 
     // Setter methods

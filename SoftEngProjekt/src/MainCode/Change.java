@@ -17,7 +17,7 @@ public class Change {
                         System.out.println("End date cannot be before start date, please try again");
                     }
                 }
-            } else if (inputLine.equals("CANCEL")) {
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject,employeeID);
             } else {
                 System.out.println("Wrong date format, please try again");
@@ -45,7 +45,7 @@ public class Change {
                 }
             } else {
                 inputLine = Main.input.nextLine();
-                if (inputLine.equals("BACK")) {
+                if (inputLine.equalsIgnoreCase("BACK")) {
                     Choose.activity(currentActivity, currentProject, Main.projectLeader, employee);
                 } else {
                     System.out.println("Wrong format, please try again");
@@ -77,7 +77,7 @@ public class Change {
                         System.out.println("Employee is already an assistant in this activity");
                     }
                 }
-            } else if (inputLine.equals("BACK")) {
+            } else if (inputLine.equalsIgnoreCase("BACK")) {
                 Choose.activity(currentActivity, currentProject, projectLeader,employee);
             }
         }
@@ -106,7 +106,7 @@ public class Change {
                 } else if(currentActivity.eContains(Find.employee(employeeID))){
                     System.out.println("Employee is already part of this activity");
                 }
-            } else if (inputLine.equals("BACK")) {
+            } else if (inputLine.equalsIgnoreCase("BACK")) {
                 Choose.activity(currentActivity, currentProject, Main.projectLeader,employee);
             }
         }
@@ -124,7 +124,7 @@ public class Change {
                 if (Find.employee(employeeID) == null) {
                     System.out.println("Employee does not exist, try agian");
                     System.out.println("To go back to activity select type: 'BACK'");
-                } else if (inputLine.equals("BACK")) {
+                } else if (inputLine.equalsIgnoreCase("BACK")) {
                     break;
                 } else if (Find.employee(employeeID) != null){
                     if(currentActivity.eContains(Find.employee(employeeID))) {
@@ -135,7 +135,7 @@ public class Change {
                         System.out.println("Employee is not part of this activity");
                     }
                 }
-            } else if (inputLine.equals("BACK")) {
+            } else if (inputLine.equalsIgnoreCase("BACK")) {
                 Choose.activity(currentActivity, currentProject, projectLeader,employee);
             }
         }

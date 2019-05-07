@@ -21,8 +21,12 @@ public class Create {
             String inputLine = Main.input.nextLine();
             if (Find.activity(currentProject, inputLine) != null) {
                 System.out.println("An activity with this name already exists. Please try again");
-            }else if(inputLine.equals("CANCEL")) {
+            }else if(inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject, employeeID);
+            }else if(inputLine.equalsIgnoreCase("REPORT") || inputLine.equalsIgnoreCase("CREATE") || inputLine.equalsIgnoreCase("ADD")
+                    || inputLine.equalsIgnoreCase("LOGOUT") || inputLine.equalsIgnoreCase("ASSIGN") || inputLine.equalsIgnoreCase("UNASSIGN")
+                    || inputLine.equalsIgnoreCase("NEWACT") || inputLine.equalsIgnoreCase("BACK")) {
+                System.out.println("Activity name cannot be the same as a system command, please try again");
             } else {
                 nameActivity = inputLine;
                 inputStatus = true;
@@ -42,7 +46,7 @@ public class Create {
                     activityStartDate = new DateType(inputLine);
                     inputStatus = true;
                 }
-            } else if (inputLine.equals("CANCEL")) {
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject,employeeID);
             } else {
                 System.out.println("Wrong date format, please try again");
@@ -65,7 +69,7 @@ public class Create {
                         System.out.println("End date cannot be before start date, please try again");
                     }
                 }
-            } else if (inputLine.equals("CANCEL")) {
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject,employeeID);
             } else {
                 System.out.println("Wrong date format, please try again");
@@ -90,7 +94,7 @@ public class Create {
                 } else {
                     System.out.println("Wrong format, please try again");
                 }
-            } else if (inputLine.equals("CANCEL")) {
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject,employeeID);
             } else {
                 System.out.println("Wrong format, please try again");
@@ -106,7 +110,7 @@ public class Create {
             if (inputLine.matches("^[0-9]+$")) {
                 employeesNumberActivity = Integer.parseInt(inputLine);
                 inputStatus = true;
-            } else if (inputLine.equals("CANCEL")) {
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject,employeeID);
             } else {
                 System.out.println("Wrong format, please try again");
@@ -129,7 +133,7 @@ public class Create {
                         System.out.println("This employee does not exist. Please try again");
                         System.out.println("To cancel creation of activity type: 'CANCEL'");
                         continue;
-                    } else if (inputLine.equals("CANCEL")) {
+                    } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                         Choose.project(currentProject,employeeID);
                     } else if (employeeListActivity.contains(Find.employee(inputLine))){
                         System.out.println("Employee already part of activity");
@@ -139,7 +143,7 @@ public class Create {
                     }
 
                     inputStatus = true;
-                } else if (inputLine.equals("CANCEL")) {
+                } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                     Choose.project(currentProject,employeeID);
                 } else {
                     System.out.println("Wrong format, please try again");
@@ -173,8 +177,12 @@ public class Create {
                 System.out.println("Wrong format");
             } else if (employeeID.findActivity(inputLine) != null) {
                 System.out.println("An activity with this name already exists. Please try again");
-            } else if(inputLine.equals("CANCEL")) {
+            } else if(inputLine.equalsIgnoreCase("CANCEL")) {
                 View.overview(employeeID);
+            }else if(inputLine.equalsIgnoreCase("REPORT") || inputLine.equalsIgnoreCase("CREATE") || inputLine.equalsIgnoreCase("ADD")
+                    || inputLine.equalsIgnoreCase("LOGOUT") || inputLine.equalsIgnoreCase("ASSIGN") || inputLine.equalsIgnoreCase("UNASSIGN")
+                    || inputLine.equalsIgnoreCase("NEWACT") || inputLine.equalsIgnoreCase("BACK") || inputLine.equalsIgnoreCase("EXIT")) {
+                System.out.println("Activity name cannot be the same as a system command, please try again");
             } else {
                 nameActivity = inputLine;
                 inputStatus = true;
@@ -194,7 +202,7 @@ public class Create {
                     activityStartDate = new DateType(inputLine);
                     inputStatus = true;
                 }
-            } else if (inputLine.equals("CANCEL")) {
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 View.overview(employeeID);
             } else {
                 System.out.println("Wrong date format, please try again");
@@ -217,7 +225,7 @@ public class Create {
                         System.out.println("End date cannot be before start date, please try again");
                     }
                 }
-            } else if (inputLine.equals("CANCEL")) {
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 View.overview(employeeID);
             } else {
                 System.out.println("Wrong date format, please try again");
@@ -227,7 +235,7 @@ public class Create {
         // Creates activity with the given information:
         NSA activityPlaceholder = new NSA(nameActivity, activityStartDate, activityEndDate, employeeID);
         employeeID.AddNonActivity(activityPlaceholder);
-        System.out.print("The activity was succesfully added");
+        System.out.println("The activity was succesfully added\r\n");
         View.overview(employeeID);
     }
 }
