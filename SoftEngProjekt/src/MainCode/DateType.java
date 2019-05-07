@@ -6,11 +6,10 @@ public class DateType {
 	public DateType (String date) {
 
 		this.date=date;
-		datechecker();
 
 	}
 
-	public boolean datechecker() {
+	public static boolean datechecker(String date) {
 
 		boolean startdate = false;
 

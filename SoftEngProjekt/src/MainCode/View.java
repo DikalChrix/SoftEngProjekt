@@ -2,11 +2,11 @@ import java.util.*;
 
 public class View {
     static ArrayList<Project> employeeProjects = new ArrayList<Project>();
-    static ArrayList<Project> leaderProjects;
+    static ArrayList<Project> leaderProjects = new ArrayList<Project>();
 
     // Login method
     public static void login() {
-        System.out.println("Plese identify yourself by typing your ID");
+        System.out.println("Please identify yourself by typing your ID");
         boolean inputStatus = false;
         while (inputStatus == false) {
 
@@ -31,7 +31,7 @@ public class View {
     }
 
     public static void overview(Employee employeeID) {
-        System.out.println("Welcome to the ProjectPlanner");
+        System.out.println("\r\nWelcome to the ProjectPlanner");
         leaderProjects = findProjectLeader(Main.projectList, employeeID);
         if (leaderProjects.size() > 0) {
 
@@ -51,8 +51,9 @@ public class View {
         findProjectOfEmployee(employeeID);
         System.out.println("");
 
-        System.out.println("To go to a specific project: Please type 'YEARID NUMID'");
+        System.out.println("To go to a specific project: Please type the project ID");
         System.out.println("To create an activity: Please type 'CREATE'");
+        System.out.println("To log out: Please type 'LOGOUT'");
         boolean inputStatus =false;
         while (!inputStatus) {
             String inputLine = Main.input.nextLine();
@@ -71,11 +72,13 @@ public class View {
                     } else {
                         Main.projectLeader = false;
                     }
-                    Main.projectChosen(currentProject);
+                    View.projectChosen(currentProject);
                     inputStatus = true;
                 }
             } else if(inputLine.equals("CREATE")) {
                 Main.newNSA(employeeID);
+            } else if(inputLine.equals("LOGOUT")) {
+                login();
             } else {
                 System.out.println("Wrong format, please try again");
             }
@@ -141,6 +144,89 @@ public class View {
         } else {
             for(int i = 0; i < activities.size(); i++) {
                 System.out.println(activities.get(i).Name);
+            }
+        }
+    }
+
+    public static void projectChosen(Project currentProject) {
+
+        System.out.println("Overview for project: " + currentProject.getProjectID());
+        System.out.println(
+                "This project has the following startdate: " + currentProject.getProjectStartDate().toString());
+        System.out.println(
+                "This project has the following expected end date: " + currentProject.getProjectEndDate().toString());
+        System.out.println("This project consists of the following activities:");
+
+        // Metode, som printer alle aktiviteterne i dette projekt
+        View.chooseActivity(currentProject, Main.projectLeader);
+
+        if (Main.projectLeader) {
+
+            System.out.println("The following employees are assigned to this project:");
+            // Metode, som printer alle employees, der er i dette projekt
+
+        }
+
+        System.out.println("You now have the following choices:");
+        System.out.println("To go back to 'Project Overview': Please type 'BACK'");
+        System.out.println("To choose activity: Please type the name of the activity");
+
+        if (Main.projectLeader) {
+            System.out.println("Projectleader permissions:");
+            System.out.println("To change the start date: Please type STARTDATE:dd/mm/yy");
+            System.out.println("To change the expected end date: Please type ENDDATE:dd/mm/yy");
+            System.out.println("To generate a report: Please type 'REPORT'");
+            System.out.println("To create an activity: Please type 'NEWACT'");
+
+        }
+        boolean inputStatus = false;
+        while (!inputStatus) {
+            String inputLine = Main.input.nextLine();
+            if (inputLine.equalsIgnoreCase("BACK")) {
+                View.overview(Main.currentEmployeeID);
+                inputStatus = true;
+            } else if (Main.projectLeader && inputLine
+                    .matches("STARTDATE:^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+$")) {
+
+                // Mulig test, som sørger for at startdate er før enddate
+
+                String dateString = inputLine.substring(10);
+                DateType newStartDate = new DateType(dateString);
+                currentProject.setProjectStartDate(newStartDate);
+
+                System.out.println("The start date was succesfully changed to: " + newStartDate.toString());
+
+            } else if (Main.projectLeader && inputLine
+                    .matches("ENDDATE:^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+$")) {
+
+                // Mulig test, som sørger for at enddate er efter startdate
+
+                String dateString = inputLine.substring(8);
+                DateType newEndDate = new DateType(dateString);
+                currentProject.setProjectEndDate(newEndDate);
+
+                System.out.println("The expected end date was succesfully changed to: " + newEndDate.toString());
+            } else if (Main.projectLeader && inputLine.matches("NEWACT")) {
+
+                Main.newActivity(currentProject);
+
+            } else if (Main.projectLeader == true && inputLine.equals("REPORT")) {
+
+                currentProject.getReport();
+
+            } else if (inputLine.matches("^[a-z,A-Z]+$")) {
+                PSA currentActivity = currentProject.findActivity(inputLine);
+                if (currentActivity != null) {
+                    System.out.print("The activity does not exist, please try again");
+                    continue;
+                } else {
+                    // Choose activity
+                    Main.activityChosen(currentActivity, currentProject, Main.projectLeader);
+                    inputStatus = true;
+                }
+
+            } else {
+                System.out.println("Wrong format, please try again");
             }
         }
     }

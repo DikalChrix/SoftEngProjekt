@@ -10,9 +10,9 @@ public class Project {
     public String ProjectLeaderName;
     public DateType StartDate;
     public DateType EndDate;
-    public ArrayList<PSA> ActivityList;
-    public ArrayList<Employee> Employees;
-    public ArrayList<Employee> Assistants;
+    public ArrayList<PSA> ActivityList = new ArrayList<PSA>();
+    public ArrayList<Employee> Employees = new ArrayList<Employee>();
+    public ArrayList<Employee> Assistants = new ArrayList<Employee>();
 
     // Constructor
     public Project(String projectName, String projectYearID, String projectNumberID, String projectLeaderName, DateType startDate, DateType endDate,
@@ -74,6 +74,10 @@ public class Project {
         }
         int TimeLeft = ExpectedTime - LoggedTime;
         // Prints project times
+        System.out.printf("%-25s %-25s", "Start date: "+StartDate,"End date: "+EndDate);
+        System.out.println("");
+        Datemethods.dateDiff(StartDate,EndDate);
+        System.out.println("");
         System.out.printf("%-20s %-20s %-20s","Expected Time: " + ExpectedTime, "Logged Time: " + LoggedTime, "Time Left: " + TimeLeft);
         System.out.println("\r\n");
         // Prints employees in project
@@ -123,9 +127,11 @@ public class Project {
     }
 
     public PSA findActivity(String name) {
-        for(int i = 0; i < ActivityList.size(); i++) {
-            if(ActivityList.get(i).Name == name) {
-                return ActivityList.get(i);
+        if(ActivityList.size() > 0) {
+            for(int i = 0; i < ActivityList.size(); i++) {
+                if(ActivityList.get(i).Name == name) {
+                    return ActivityList.get(i);
+                }
             }
         }
         return null;

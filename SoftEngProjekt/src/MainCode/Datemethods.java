@@ -1,7 +1,7 @@
 
 public class Datemethods {
 
-	public boolean dateDiff(DateType sDate, DateType eDate) {
+	public static boolean dateDiff(DateType sDate, DateType eDate) {
 
 		//Checks if end-date is later than start-date
 		if (sDate.getYear() > eDate.getYear()) {
