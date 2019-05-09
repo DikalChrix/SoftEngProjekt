@@ -45,55 +45,37 @@ public class View {
 
         printAllProjectsAssignedToEmploye(employeeID);
 
+        System.out.println("");
+
         boolean inputStatus =false;
         while (!inputStatus) {
-            System.out.println("You now have the following options:");
-            System.out.println("1 Select project");
-            System.out.println("2 Create non specific activity");
-            System.out.println("3 Log out");
+            System.out.println("To go to a specific project: Please type the project ID");
+            System.out.println("To create an activity: Please type 'CREATE'");
+            System.out.println("To log out: Please type 'LOGOUT'");
             String inputLine = Main.input.nextLine();
-            if(inputLine.matches("[1-3]+$")) {
-                int selected = Integer.parseInt(inputLine);
-                switch(selected) {
-                    case 1:
-                        System.out.println("1 Select project 201901");
-                        System.out.println("2 Select project 201902");
-                        System.out.println("3 Cancel selection of project");
-                        inputLine = Main.input.nextLine();
-                        if(inputLine.matches("[1-3]+$")) {
-                            selected = Integer.parseInt(inputLine);
-                            switch(selected) {
-                                case 1:
-                                    Project currentProject = Find.project("2019", "01");
-                                    Choose.project(currentProject, employeeID);
-                                    break;
-                                case 2:
-                                    currentProject = Find.project("2019", "02");
-                                    Choose.project(currentProject, employeeID);
-                                    break;
-                                case 3:
-                                    overview(employeeID);
-                                    break;
-                            }
-                        } else {
-                            System.out.println("Wrong format, please try again");
-                        }
-                        break;
-                    case 2:
-                        Create.newNSA(employeeID);
-                        break;
-                    case 3:
-                        inputStatus = true;
-                }
-            } else {
-                System.out.println("Wrong format, please try again");
-            }
+            Project currentProject = validProject(inputLine);
+            inputStatus = readUserInput(employeeID, inputStatus, inputLine, currentProject);
         }
+    }
+
+    private static boolean readUserInput(Employee employeeID, boolean inputStatus, String inputLine,
+                                         Project currentProject) {
+        if(currentProject != null) {
+            Choose.project(currentProject, employeeID);
+            overview(employeeID);
+        } else if(inputLine.equalsIgnoreCase("CREATE")) {
+            Create.newNSA(employeeID);
+            overview(employeeID);
+        } else if(inputLine.equalsIgnoreCase("LOGOUT")) {
+            inputStatus = true;
+        } else {
+            System.out.println("Wrong format, please try again");
+        }
+        return inputStatus;
     }
 
     private static void printAllProjectsAssignedToEmploye(Employee employeeID) {
         Find.projectOfEmployee(employeeID);
-        System.out.println("");
     }
 
     private static void isProjectLeaderForAnyProjectInSystem(Employee employeeID) {
