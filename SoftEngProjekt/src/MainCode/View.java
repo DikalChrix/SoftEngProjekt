@@ -7,31 +7,88 @@ public class View {
     // Login method
     public static void login() {
         System.out.println("Please identify yourself by typing your ID");
-        boolean inputStatus = false;
-        while (inputStatus == false) {
+        while (true) {
 
             String inputLine = Main.input.nextLine();
 
-            if (inputLine.matches("^[A-Z]{3}$")) {
+            verifyInputForUserID(inputLine);
+        }
+    }
 
-                Main.currentEmployeeID = Find.employee(inputLine);
+    private static void verifyInputForUserID(String inputLine) {
+        if (inputLine.matches("^[A-Z]{3}$")) {
 
-                if (Main.currentEmployeeID == null) {
-                    System.out.println("An employee with that ID does not exist in the system. Please try again");
-                    continue;
-                } else {
-                    View.overview(Main.currentEmployeeID);
-                    inputStatus = true;
-                }
+            Main.currentEmployeeID = Find.employee(inputLine);
 
-            } else {
-                System.out.println("Wrong format, please try again");
-            }
+            verifyUserID();
+
+        } else {
+            System.out.println("Wrong format, please try again");
+        }
+    }
+
+    private static void verifyUserID() {
+        if (Main.currentEmployeeID == null) {
+            System.out.println("An employee with that ID does not exist in the system. Please try again");
+        } else {
+            View.overview(Main.currentEmployeeID);
+            login();
         }
     }
 
     public static void overview(Employee employeeID) {
         System.out.println("Welcome to the ProjectPlanner\r\n");
+
+        isProjectLeaderForAnyProjectInSystem(employeeID);
+
+        System.out.println("You are assigned to the following projects:");
+
+        printAllProjectsAssignedToEmploye(employeeID);
+
+        boolean inputStatus =false;
+        while (!inputStatus) {
+            String inputLine = Main.input.nextLine();
+            if(inputLine.matches("[1-3]+$")) {
+                int selected = Integer.parseInt(inputLine);
+                switch(selected) {
+                    case 1:
+                        System.out.println("1 Select project 201901");
+                        System.out.println("2 Select project 201902");
+                        inputLine = Main.input.nextLine();
+                        if(inputLine.matches("[1-2]+$")) {
+                            selected = Integer.parseInt(inputLine);
+                            switch(selected) {
+                                case 1:
+                                    Project currentProject = Find.project("2019", "01");
+                                    Choose.project(currentProject, employeeID);
+                                    break;
+                                case 2:
+                                    currentProject = Find.project("2019", "02");
+                                    Choose.project(currentProject, employeeID);
+                                    break;
+                            }
+                        }
+                        break;
+                    case 2:
+                        Create.newNSA(employeeID);
+                        break;
+                    case 3:
+                        inputStatus = true;
+                }
+            }
+        }
+    }
+
+    private static void printAllProjectsAssignedToEmploye(Employee employeeID) {
+        Find.projectOfEmployee(employeeID);
+        System.out.println("");
+        System.out.println("You now have the following options:");
+        System.out.println("1 Select project");
+        System.out.println("2 Create non specific activity");
+        System.out.println("3 Log out");
+    }
+
+    private static void isProjectLeaderForAnyProjectInSystem(Employee employeeID) {
         leaderProjects = Find.projectLeader(Main.projectList, employeeID);
         if (leaderProjects.size() > 0) {
 
@@ -44,50 +101,20 @@ public class View {
             }
             System.out.println("");
         }
+    }
 
-        System.out.println("You are assigned to the following projects:");
-
-        // Metoder som printer alle projekter som man normal employee af
-        Find.projectOfEmployee(employeeID);
-        System.out.println("");
-
-        System.out.println("To go to a specific project: Please type the project ID");
-        System.out.println("To create an activity: Please type 'CREATE'");
-        System.out.println("To log out: Please type 'LOGOUT'");
-        System.out.println("To exit program: Please tyoe 'EXIT'");
-        boolean inputStatus =false;
-        while (!inputStatus) {
-            String inputLine = Main.input.nextLine();
-
-            if (inputLine.matches("^[0-9]{6}$")) {
-                String yearIDString = inputLine.substring(0, 4);
-                String numIDString = inputLine.substring(4);
-
-                System.out.println(yearIDString+numIDString);
-                Project currentProject = Find.project(yearIDString, numIDString);
-                if (currentProject == null) {
-                    System.out.println("A project with that ID does not exist. Please try again");
-                } else {
-                    if(currentProject.isProjectLeader(employeeID)){
-                        Main.projectLeader = true;
-                    } else {
-                        Main.projectLeader = false;
-                    }
-                    Choose.project(currentProject, employeeID);
-                    inputStatus = true;
-                }
-            } else if(inputLine.equalsIgnoreCase("CREATE")) {
-                Create.newNSA(employeeID);
-            } else if(inputLine.equalsIgnoreCase("LOGOUT")) {
-                login();
-            } else if (inputLine.equalsIgnoreCase("EXIT")) {
-
-                inputStatus = true;
-
+    public static Project validProject(String inputLine) {
+        if (inputLine.matches("^[0-9]{6}$")) {
+            String yearIDString = inputLine.substring(0, 4);
+            String numIDString = inputLine.substring(4);
+            Project currentProject = Find.project(yearIDString, numIDString);
+            if (currentProject == null) {
+                System.out.println("A project with that ID does not exist. Please try again");
             } else {
-                System.out.println("Wrong format, please try again");
+                return currentProject;
             }
         }
+        return null;
     }
 
     public static void activity(Project project, boolean projectLeader){

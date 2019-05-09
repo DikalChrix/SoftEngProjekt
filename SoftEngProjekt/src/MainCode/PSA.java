@@ -45,7 +45,7 @@ public class PSA extends Activity{
         return Employees.contains(employee);
     }
 
-    public boolean hContains(Employee employee) {
+    public boolean containsAssistant(Employee employee) {
         return Assistants.contains(employee);
     }
 

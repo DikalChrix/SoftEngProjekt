@@ -6,16 +6,156 @@ public class Create {
     public static void newActivity(Project currentProject, Employee employeeID) {
         // Local fields
         String nameActivity = null;
-        int hoursActivity = 0;
-        DateType activityStartDate = null;
-        DateType activityEndDate = null;
-        int employeesNumberActivity = 0;
+        int hoursActivity = 0,employeesNumberActivity = 0;
+        DateType activityStartDate=null, activityEndDate = null;
 
         ArrayList<Employee> employeeListActivity = new ArrayList<Employee>();
 
-        // Add name to activity
-        boolean inputStatus = false;
-        while (!inputStatus) {
+        nameActivity = addName(currentProject, employeeID, nameActivity);
+
+        activityStartDate = addStartdate(currentProject, employeeID, activityStartDate);
+
+        activityEndDate = addEnddate(currentProject, employeeID, activityStartDate, activityEndDate);
+
+        hoursActivity = chooseHours(currentProject, employeeID, hoursActivity);
+
+        employeesNumberActivity = addNumberOfEmployees(currentProject, employeeID, employeesNumberActivity);
+
+        // Choose specific employees
+        addEmployees(currentProject, employeeID, employeesNumberActivity, employeeListActivity);
+        // Creates activity with the given information:
+        PSA activityPlaceholder = new PSA(nameActivity, hoursActivity, activityStartDate, activityEndDate,
+                employeeListActivity);
+        currentProject.addActivity(activityPlaceholder);
+
+        System.out.println("The activity was succesfully added to the project");
+        Choose.project(currentProject,employeeID);
+    }
+
+    private static void addEmployees(Project currentProject, Employee employeeID, int employeesNumberActivity,
+                                     ArrayList<Employee> employeeListActivity) {
+        for (int i = 0; i < employeesNumberActivity;) {
+            System.out.println("Please type the ID of the employees on each line:");
+            if(i == 0) {
+                System.out.println("To cancel creation of activity type: 'CANCEL'");
+            }
+            while (true) {
+                String inputLine = Main.input.nextLine();
+                if (inputLine.matches("^[A-Z]{3}+$")) {
+
+                    doesEmployeeExist(currentProject, employeeID, employeeListActivity, inputLine);
+
+                } else if (inputLine.equalsIgnoreCase("CANCEL")) {
+                    Choose.project(currentProject,employeeID);
+                } else {
+                    System.out.println("Wrong format, please try again");
+                    System.out.println("To cancel creation of activity type: 'CANCEL'");
+                }
+            }
+        }
+    }
+
+    private static void doesEmployeeExist(Project currentProject, Employee employeeID,
+                                          ArrayList<Employee> employeeListActivity, String inputLine) {
+        if (Find.employee(inputLine) == null) {
+            System.out.println("This employee does not exist. Please try again");
+            System.out.println("To cancel creation of activity type: 'CANCEL'");
+        } else if (inputLine.equalsIgnoreCase("CANCEL")) {
+            Choose.project(currentProject,employeeID);
+        } else if (employeeListActivity.contains(Find.employee(inputLine))){
+            System.out.println("Employee already part of activity");
+        } else {
+            employeeListActivity.add(Find.employee(inputLine));
+            System.out.println("The employee with ID " + inputLine + " was succesfully added");
+        }
+    }
+
+    private static int addNumberOfEmployees(Project currentProject, Employee employeeID, int employeesNumberActivity) {
+        while (true) {
+            System.out.println("How many employees should be added to the project?");
+            System.out.println("To cancel creation of activity type: 'CANCEL'");
+            String inputLine = Main.input.nextLine();
+            if (inputLine.matches("^[0-9]+$")) {
+                employeesNumberActivity = Integer.parseInt(inputLine);
+                break;
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
+                Choose.project(currentProject,employeeID);
+            } else {
+                System.out.println("Wrong format, please try again");
+            }
+        }
+        return employeesNumberActivity;
+    }
+
+    private static int chooseHours(Project currentProject, Employee employeeID, int hoursActivity) {
+        while (true) {
+            System.out.println("How many hours of work should the activity contain?");
+            System.out.println("To cancel creation of activity type: 'CANCEL'");
+            String inputLine = Main.input.nextLine();
+            if (inputLine.matches("^[0-9]{1,}+$")) {
+                hoursActivity = Integer.parseInt(inputLine);
+                if (hoursActivity > 0) {
+                    break;
+                } else {
+                    System.out.println("Activity cannot be less than 1 hour, please try again");
+                }
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
+                Choose.project(currentProject,employeeID);
+            } else {
+                System.out.println("Wrong format, please try again");
+            }
+        }
+        return hoursActivity;
+    }
+
+    private static DateType addEnddate(Project currentProject, Employee employeeID, DateType activityStartDate,
+                                       DateType activityEndDate) {
+        while (true) {
+            System.out.println("On which date should the activity end? DD/MM/YYYY");
+            System.out.println("To cancel creation of activity type: 'CANCEL'");
+            String inputLine = Main.input.nextLine();
+            if (inputLine.matches(
+                    "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
+                if(DateType.datechecker(inputLine)) {
+                    activityEndDate = new DateType(inputLine);
+                    if(Datemethods.validDate(activityStartDate, activityEndDate)) {
+                        break;
+                    } else {
+                        System.out.println("End date cannot be before start date, please try again");
+                    }
+                }
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
+                Choose.project(currentProject,employeeID);
+            } else {
+                System.out.println("Wrong date format, please try again");
+            }
+        }
+        return activityEndDate;
+    }
+
+    private static DateType addStartdate(Project currentProject, Employee employeeID, DateType activityStartDate) {
+        while (true) {
+            System.out.println("On which date should the activity start? DD/MM/YYYY");
+            System.out.println("To cancel creation of activity type: 'CANCEL'");
+            String inputLine = Main.input.nextLine();
+
+            if (inputLine.matches(
+                    "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
+                if(DateType.datechecker(inputLine)) {
+                    activityStartDate = new DateType(inputLine);
+                    break;
+                }
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
+                Choose.project(currentProject,employeeID);
+            } else {
+                System.out.println("Wrong date format, please try again");
+            }
+        }
+        return activityStartDate;
+    }
+
+    private static String addName(Project currentProject, Employee employeeID, String nameActivity) {
+        while (true) {
             System.out.println("What is the name of the activity?");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
             String inputLine = Main.input.nextLine();
@@ -29,33 +169,36 @@ public class Create {
                 System.out.println("Activity name cannot be the same as a system command, please try again");
             } else {
                 nameActivity = inputLine;
-                inputStatus = true;
+                break;
             }
         }
+        return nameActivity;
+    }
+
+    // Create new non specific activity
+    public static void newNSA(Employee employeeID) {
+        // Local fields
+        String nameActivity = null;
+        DateType activityStartDate = null, activityEndDate = null;
+
+        // Add name to activity
+        nameActivity = addNSAName(employeeID, nameActivity);
 
         // Add start date to activity
-        inputStatus = false;
-        while (!inputStatus) {
-            System.out.println("On which date should the activity start? DD/MM/YYYY");
-            System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
-
-            if (inputLine.matches(
-                    "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-                if(DateType.datechecker(inputLine)) {
-                    activityStartDate = new DateType(inputLine);
-                    inputStatus = true;
-                }
-            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                Choose.project(currentProject,employeeID);
-            } else {
-                System.out.println("Wrong date format, please try again");
-            }
-        }
+        activityStartDate = addNSAStartdate(employeeID, activityStartDate);
 
         // Add end date to activity
-        inputStatus = false;
-        while (!inputStatus) {
+        activityEndDate = addNSAEnddate(employeeID, activityStartDate, activityEndDate);
+
+        // Creates activity with the given information:
+        NSA activityPlaceholder = new NSA(nameActivity, activityStartDate, activityEndDate, employeeID);
+        employeeID.AddNonActivity(activityPlaceholder);
+        System.out.println("The activity was succesfully added\r\n");
+        View.overview(employeeID);
+    }
+
+    private static DateType addNSAEnddate(Employee employeeID, DateType activityStartDate, DateType activityEndDate) {
+        while (true) {
             System.out.println("On which date should the activity end? DD/MM/YYYY");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
             String inputLine = Main.input.nextLine();
@@ -64,112 +207,43 @@ public class Create {
                 if(DateType.datechecker(inputLine)) {
                     activityEndDate = new DateType(inputLine);
                     if(Datemethods.validDate(activityStartDate, activityEndDate)) {
-                        inputStatus = true;
+                        break;
                     } else {
                         System.out.println("End date cannot be before start date, please try again");
                     }
                 }
             } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                Choose.project(currentProject,employeeID);
+                View.overview(employeeID);
             } else {
                 System.out.println("Wrong date format, please try again");
             }
         }
-
-
-        inputStatus = false;
-        while (inputStatus == false) {
-            System.out.println("How many hours of work should the activity contain?");
-            System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
-            if (inputLine.matches("^[0-9]{1,}+$")) {
-                hoursActivity = Integer.parseInt(inputLine);
-                if (inputLine.matches("^[0-9]{1,}+$")) {
-                    if (hoursActivity > 0) {
-                        hoursActivity = Integer.parseInt(inputLine);
-                        inputStatus = true;
-                    } else {
-                        System.out.println("Activity cannot be less than 1 hour, please try again");
-                    }
-                } else {
-                    System.out.println("Wrong format, please try again");
-                }
-            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                Choose.project(currentProject,employeeID);
-            } else {
-                System.out.println("Wrong format, please try again");
-            }
-        }
-
-        // Choose number of employees to add to activity
-        inputStatus = false;
-        while (!inputStatus) {
-            System.out.println("How many employees should be added to the project?");
-            System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
-            if (inputLine.matches("^[0-9]+$")) {
-                employeesNumberActivity = Integer.parseInt(inputLine);
-                inputStatus = true;
-            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                Choose.project(currentProject,employeeID);
-            } else {
-                System.out.println("Wrong format, please try again");
-            }
-        }
-
-        // Choose specific employees
-        for (int i = 0; i < employeesNumberActivity; i++) {
-            System.out.println("Please type the ID of the employees on each line:");
-            if(i == 0) {
-                System.out.println("To cancel creation of activity type: 'CANCEL'");
-            }
-            inputStatus = false;
-            while (!inputStatus) {
-                String inputLine = Main.input.nextLine();
-                if (inputLine.matches("^[A-Z]{3}+$")) {
-
-                    // Checks if this employee actually exists:
-                    if (Find.employee(inputLine) == null) {
-                        System.out.println("This employee does not exist. Please try again");
-                        System.out.println("To cancel creation of activity type: 'CANCEL'");
-                        continue;
-                    } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                        Choose.project(currentProject,employeeID);
-                    } else if (employeeListActivity.contains(Find.employee(inputLine))){
-                        System.out.println("Employee already part of activity");
-                    } else {
-                        employeeListActivity.add(Find.employee(inputLine));
-                        System.out.println("The employee with ID " + inputLine + " was succesfully added");
-                    }
-
-                    inputStatus = true;
-                } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                    Choose.project(currentProject,employeeID);
-                } else {
-                    System.out.println("Wrong format, please try again");
-                    System.out.println("To cancel creation of activity type: 'CANCEL'");
-                }
-            }
-        }
-        // Creates activity with the given information:
-        PSA activityPlaceholder = new PSA(nameActivity, hoursActivity, activityStartDate, activityEndDate,
-                employeeListActivity);
-        currentProject.addActivity(activityPlaceholder);
-
-        System.out.println("The activity was succesfully added to the project");
-        Choose.project(currentProject,employeeID);
+        return activityEndDate;
     }
 
-    // Create new non specific activity
-    public static void newNSA(Employee employeeID) {
-        // Local fields
-        String nameActivity = null;
-        DateType activityStartDate = null;
-        DateType activityEndDate = null;
+    private static DateType addNSAStartdate(Employee employeeID, DateType activityStartDate) {
+        while (true) {
+            System.out.println("On which date should the activity start? DD/MM/YYYY");
+            System.out.println("To cancel creation of activity type: 'CANCEL'");
+            String inputLine = Main.input.nextLine();
 
-        // Add name to activity
-        boolean inputStatus = false;
-        while (inputStatus == false) {
+            if (inputLine.matches(
+                    "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
+                if(DateType.datechecker(inputLine)) {
+                    activityStartDate = new DateType(inputLine);
+                    break;
+                }
+            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
+                View.overview(employeeID);
+            } else {
+                System.out.println("Wrong date format, please try again");
+            }
+        }
+        return activityStartDate;
+    }
+
+    private static String addNSAName(Employee employeeID, String nameActivity) {
+        while (true) {
             System.out.println("What is the name of the activity?");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
             String inputLine = Main.input.nextLine();
@@ -185,57 +259,9 @@ public class Create {
                 System.out.println("Activity name cannot be the same as a system command, please try again");
             } else {
                 nameActivity = inputLine;
-                inputStatus = true;
+                break;
             }
         }
-
-        // Add start date to activity
-        inputStatus = false;
-        while (!inputStatus) {
-            System.out.println("On which date should the activity start? DD/MM/YYYY");
-            System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
-
-            if (inputLine.matches(
-                    "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-                if(DateType.datechecker(inputLine)) {
-                    activityStartDate = new DateType(inputLine);
-                    inputStatus = true;
-                }
-            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                View.overview(employeeID);
-            } else {
-                System.out.println("Wrong date format, please try again");
-            }
-        }
-
-        // Add end date to activity
-        inputStatus = false;
-        while (!inputStatus) {
-            System.out.println("On which date should the activity end? DD/MM/YYYY");
-            System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
-            if (inputLine.matches(
-                    "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-                if(DateType.datechecker(inputLine)) {
-                    activityEndDate = new DateType(inputLine);
-                    if(Datemethods.validDate(activityStartDate, activityEndDate)) {
-                        inputStatus = true;
-                    } else {
-                        System.out.println("End date cannot be before start date, please try again");
-                    }
-                }
-            } else if (inputLine.equalsIgnoreCase("CANCEL")) {
-                View.overview(employeeID);
-            } else {
-                System.out.println("Wrong date format, please try again");
-            }
-        }
-
-        // Creates activity with the given information:
-        NSA activityPlaceholder = new NSA(nameActivity, activityStartDate, activityEndDate, employeeID);
-        employeeID.AddNonActivity(activityPlaceholder);
-        System.out.println("The activity was succesfully added\r\n");
-        View.overview(employeeID);
+        return nameActivity;
     }
 }

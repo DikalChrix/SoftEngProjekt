@@ -38,7 +38,7 @@ public class Main {
         DateType AstartDate1 = new DateType("05/05/2019");
         DateType AendDate1 = new DateType("12/05/2019");
         String AName1 = "Activity1";
-        ArrayList<Employee> Ae1 = new ArrayList<Employee>(Arrays.asList(ABC,DEF,PQR,YZA));
+        ArrayList<Employee> Ae1 = new ArrayList<Employee>(Arrays.asList(DEF,PQR,YZA));
 
         PSA Activity1 = new PSA(AName1,10, AstartDate1, AendDate1, Ae1);
 
@@ -46,7 +46,7 @@ public class Main {
         DateType AstartDate2 = new DateType("05/05/2019");
         DateType AendDate2 = new DateType("12/05/2019");
         String AName2 = "Activity2";
-        ArrayList<Employee> Ae2 = new ArrayList<Employee>(Arrays.asList(DEF,JKL,YZA));
+        ArrayList<Employee> Ae2 = new ArrayList<Employee>(Arrays.asList(JKL,YZA));
 
         PSA Activity2 = new PSA(AName2,20, AstartDate2, AendDate2, Ae2);
 
@@ -73,6 +73,5 @@ public class Main {
         Main.projectList.add(project2);
 
     }
-
 }
 
