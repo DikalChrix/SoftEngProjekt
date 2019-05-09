@@ -47,6 +47,10 @@ public class View {
 
         boolean inputStatus =false;
         while (!inputStatus) {
+            System.out.println("You now have the following options:");
+            System.out.println("1 Select project");
+            System.out.println("2 Create non specific activity");
+            System.out.println("3 Log out");
             String inputLine = Main.input.nextLine();
             if(inputLine.matches("[1-3]+$")) {
                 int selected = Integer.parseInt(inputLine);
@@ -54,8 +58,9 @@ public class View {
                     case 1:
                         System.out.println("1 Select project 201901");
                         System.out.println("2 Select project 201902");
+                        System.out.println("3 Cancel selection of project");
                         inputLine = Main.input.nextLine();
-                        if(inputLine.matches("[1-2]+$")) {
+                        if(inputLine.matches("[1-3]+$")) {
                             selected = Integer.parseInt(inputLine);
                             switch(selected) {
                                 case 1:
@@ -66,7 +71,12 @@ public class View {
                                     currentProject = Find.project("2019", "02");
                                     Choose.project(currentProject, employeeID);
                                     break;
+                                case 3:
+                                    overview(employeeID);
+                                    break;
                             }
+                        } else {
+                            System.out.println("Wrong format, please try again");
                         }
                         break;
                     case 2:
@@ -75,6 +85,8 @@ public class View {
                     case 3:
                         inputStatus = true;
                 }
+            } else {
+                System.out.println("Wrong format, please try again");
             }
         }
     }
@@ -82,10 +94,6 @@ public class View {
     private static void printAllProjectsAssignedToEmploye(Employee employeeID) {
         Find.projectOfEmployee(employeeID);
         System.out.println("");
-        System.out.println("You now have the following options:");
-        System.out.println("1 Select project");
-        System.out.println("2 Create non specific activity");
-        System.out.println("3 Log out");
     }
 
     private static void isProjectLeaderForAnyProjectInSystem(Employee employeeID) {
