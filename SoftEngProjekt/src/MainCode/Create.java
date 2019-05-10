@@ -1,5 +1,3 @@
-package planningProject;
-
 import java.util.ArrayList;
 
 public class Create {
@@ -30,22 +28,23 @@ public class Create {
                 employeeListActivity);
         currentProject.addActivity(activityPlaceholder);
 
-        System.out.println("The activity was succesfully added to the project");
+        System.out.println("The activity"+nameActivity+" was succesfully added to the project "+currentProject.ProjectName+"\r\n");
         Choose.project(currentProject,employeeID);
     }
 
     private static void addEmployees(Project currentProject, Employee employeeID, int employeesNumberActivity,
                                      ArrayList<Employee> employeeListActivity) {
-        for (int i = 0; i < employeesNumberActivity;) {
+        for (int i = 0; i < employeesNumberActivity; i++) {
             System.out.println("Please type the ID of the employees on each line:");
             if(i == 0) {
                 System.out.println("To cancel creation of activity type: 'CANCEL'");
             }
-            while (true) {
+            boolean inputstatus = false;
+            while (!inputstatus) {
                 String inputLine = Main.input.nextLine();
                 if (inputLine.matches("^[A-Z]{3}+$")) {
 
-                    doesEmployeeExist(currentProject, employeeID, employeeListActivity, inputLine);
+                    inputstatus = doesEmployeeExist(currentProject, employeeID, employeeListActivity, inputLine);
 
                 } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                     Choose.project(currentProject,employeeID);
@@ -57,8 +56,8 @@ public class Create {
         }
     }
 
-    private static void doesEmployeeExist(Project currentProject, Employee employeeID,
-                                          ArrayList<Employee> employeeListActivity, String inputLine) {
+    private static boolean doesEmployeeExist(Project currentProject, Employee employeeID,
+                                             ArrayList<Employee> employeeListActivity, String inputLine) {
         if (Find.employee(inputLine) == null) {
             System.out.println("This employee does not exist. Please try again");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
@@ -69,7 +68,9 @@ public class Create {
         } else {
             employeeListActivity.add(Find.employee(inputLine));
             System.out.println("The employee with ID " + inputLine + " was succesfully added");
+            return true;
         }
+        return false;
     }
 
     private static int addNumberOfEmployees(Project currentProject, Employee employeeID, int employeesNumberActivity) {
@@ -171,8 +172,11 @@ public class Create {
                 Choose.project(currentProject, employeeID);
             }else if(inputLine.equalsIgnoreCase("REPORT") || inputLine.equalsIgnoreCase("CREATE") || inputLine.equalsIgnoreCase("ADD")
                     || inputLine.equalsIgnoreCase("LOGOUT") || inputLine.equalsIgnoreCase("ASSIGN") || inputLine.equalsIgnoreCase("UNASSIGN")
-                    || inputLine.equalsIgnoreCase("NEWACT") || inputLine.equalsIgnoreCase("BACK")) {
+                    || inputLine.equalsIgnoreCase("NEWACT") || inputLine.equalsIgnoreCase("BACK")|| inputLine.equalsIgnoreCase("REMOVE")
+                    || inputLine.equalsIgnoreCase("EXIT")) {
                 System.out.println("Activity name cannot be the same as a system command, please try again");
+            } else if(inputLine.matches("^[ ]{1,}") || inputLine.equals(null)) {
+                System.out.println("Name cannot be empty");
             } else {
                 nameActivity = inputLine;
                 break;
@@ -199,7 +203,7 @@ public class Create {
         // Creates activity with the given information:
         NSA activityPlaceholder = new NSA(nameActivity, activityStartDate, activityEndDate, employeeID);
         employeeID.AddNonActivity(activityPlaceholder);
-        System.out.println("The activity was succesfully added\r\n");
+        System.out.println("The activity "+nameActivity+" was succesfully added\r\n");
         View.overview(employeeID);
     }
 
@@ -263,10 +267,13 @@ public class Create {
                 System.out.println("An activity with this name already exists. Please try again");
             } else if(inputLine.equalsIgnoreCase("CANCEL")) {
                 View.overview(employeeID);
-            }else if(inputLine.equalsIgnoreCase("REPORT") || inputLine.equalsIgnoreCase("CREATE") || inputLine.equalsIgnoreCase("ADD")
+            } else if(inputLine.equalsIgnoreCase("REPORT") || inputLine.equalsIgnoreCase("CREATE") || inputLine.equalsIgnoreCase("ADD")
                     || inputLine.equalsIgnoreCase("LOGOUT") || inputLine.equalsIgnoreCase("ASSIGN") || inputLine.equalsIgnoreCase("UNASSIGN")
-                    || inputLine.equalsIgnoreCase("NEWACT") || inputLine.equalsIgnoreCase("BACK") || inputLine.equalsIgnoreCase("EXIT")) {
+                    || inputLine.equalsIgnoreCase("NEWACT") || inputLine.equalsIgnoreCase("BACK") || inputLine.equalsIgnoreCase("EXIT")
+                    || inputLine.equalsIgnoreCase("REMOVE")) {
                 System.out.println("Activity name cannot be the same as a system command, please try again");
+            } else if(inputLine.matches("^[ ]{1,}") || inputLine.equals(null)) {
+                System.out.println("Name cannot be empty");
             } else {
                 nameActivity = inputLine;
                 break;

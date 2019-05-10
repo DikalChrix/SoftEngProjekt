@@ -1,5 +1,3 @@
-package planningProject;
-
 public class Choose {
 
     // If activity is chosen
@@ -7,6 +5,8 @@ public class Choose {
         // Local variable declaration
         String inputLine;
         boolean inputStatus = false;
+
+        System.out.println("Menu for activity "+currentActivity.Name);
 
         while(!inputStatus) {
 
@@ -23,18 +23,25 @@ public class Choose {
 
             inputLine = Main.input.nextLine();
 
-            if(inputLine.equalsIgnoreCase("ADD") && !projectLeader) {
-                Change.add(currentActivity);
-                activity(currentActivity, currentProject, projectLeader, employeeID);
-            } else if(inputLine.equalsIgnoreCase("HELP")) {
-                Change.getHelp(currentActivity, projectLeader, currentProject);
-                activity(currentActivity, currentProject, projectLeader, employeeID);
-            } else if(inputLine.equalsIgnoreCase("BACK")) {
-                break;
-            }
+            inputStatus = readPSAInput(currentActivity, currentProject, projectLeader, employeeID, inputLine,
+                    inputStatus);
 
             projectLeaderCommands(currentActivity, currentProject, projectLeader, employeeID, inputLine);
         }
+    }
+
+    private static boolean readPSAInput(PSA currentActivity, Project currentProject, boolean projectLeader,
+                                        Employee employeeID, String inputLine, boolean inputStatus) {
+        if(inputLine.equalsIgnoreCase("ADD") && !projectLeader) {
+            Change.add(currentActivity);
+            activity(currentActivity, currentProject, projectLeader, employeeID);
+        } else if(inputLine.equalsIgnoreCase("HELP")) {
+            Change.getHelp(currentActivity, projectLeader, currentProject);
+            activity(currentActivity, currentProject, projectLeader, employeeID);
+        } else if(inputLine.equalsIgnoreCase("BACK")) {
+            inputStatus = true;
+        }
+        return inputStatus;
     }
 
     private static void projectLeaderCommands(PSA currentActivity, Project currentProject, boolean projectLeader,
@@ -45,18 +52,22 @@ public class Choose {
             if(inputLine.equalsIgnoreCase("CHANGE")) {
                 Change.changeHours(currentActivity);
                 activity(currentActivity, currentProject, projectLeader, employeeID);
-            }
 
-            // Assign employee
-            if(inputLine.equalsIgnoreCase("ASSIGN")) {
+                // Assign employee
+            } else if(inputLine.equalsIgnoreCase("ASSIGN")) {
                 Change.assign(currentActivity);
                 activity(currentActivity, currentProject, projectLeader, employeeID);
-            }
 
-            // Unassign employee
-            if(inputLine.equalsIgnoreCase("UNASSIGN")) {
+                // Unassign employee
+            } else if(inputLine.equalsIgnoreCase("UNASSIGN")) {
                 Change.unAssign(currentActivity);
                 activity(currentActivity, currentProject, projectLeader, employeeID);
+
+            } else if(inputLine.equalsIgnoreCase("ENDDATE")) {
+                Change.newPSAEndDate(currentActivity, currentActivity.StartDate);
+
+            } else if(inputLine.equalsIgnoreCase("NEWNAME")) {
+                Change.newPSAName(currentProject, currentActivity);
             }
         }
     }
@@ -72,9 +83,11 @@ public class Choose {
             } else {
                 System.out.println("This activity has no employees assigned");
             }
-            System.out.println("To change expected number of hours type: 'CHANGE'");
-            System.out.println("To assign an employee to the activity type: 'ASSIGN'");
-            System.out.println("To unassign an employee from the activity type: 'UNASSIGN'");
+            System.out.println("To change activity's enddate: Please type 'ENDDATE'");
+            System.out.println("To change expected number of hours: Please type 'CHANGE'");
+            System.out.println("To assign an employee to the activity: Please type 'ASSIGN'");
+            System.out.println("To unassign an employee from the activity: Please type 'UNASSIGN'");
+            System.out.println("To unassign assistant from the activity: Please type 'REMOVE'");
         }
     }
 
@@ -85,29 +98,33 @@ public class Choose {
 
     // If project is chosen
     public static void project(Project currentProject, Employee employeeID) {
+        System.out.println("Menu for project "+currentProject.ProjectName);
 
         isCurrentProjectLeader(currentProject, employeeID);
 
         introMessage(currentProject, employeeID);
 
-        System.out.println("\r\nYou now have the following choices:");
         System.out.println("To go back to 'Project Overview': Please type 'BACK'");
         System.out.println("To choose activity: Please type the name of the activity");
 
         if (Main.projectLeader) {
             System.out.println("\r\nProjectleader permissions:");
             System.out.println("To change the expected end date: Please type ENDDATE");
-            System.out.println("To generate a report: Please type 'REPORT'");
+            System.out.println("To change the project name: Please type 'NEWNAME'");
             System.out.println("To create an activity: Please type 'NEWACT'");
+            System.out.println("To remove an activity: Please type: 'REMOVE'");
+            System.out.println("To generate a report: Please type 'REPORT'");
         }
 
-        boolean inputStatus = false;
-        while (!inputStatus) {
+        readProjectInput(currentProject, employeeID);
+    }
+
+    private static void readProjectInput(Project currentProject, Employee employeeID) {
+        while(true) {
             String inputLine = Main.input.nextLine();
             if (inputLine.equalsIgnoreCase("BACK")) {
 
-                View.overview(Main.currentEmployeeID);
-                project(currentProject, employeeID);
+                View.overview(employeeID);
 
             } else if (Main.projectLeader && inputLine.equalsIgnoreCase("ENDDATE")) {
 
@@ -119,10 +136,20 @@ public class Choose {
                 Create.newActivity(currentProject, employeeID);
                 project(currentProject, employeeID);
 
+            } else if(Main.projectLeader && inputLine.equalsIgnoreCase("REMOVE")) {
+
+                Change.removePSA(currentProject);
+                project(currentProject, employeeID);
+
             } else if (Main.projectLeader && inputLine.equalsIgnoreCase("REPORT")) {
 
                 View.report(currentProject);
                 System.out.println("");
+                project(currentProject, employeeID);
+
+            } else if (Main.projectLeader && inputLine.equalsIgnoreCase("NEWNAME")) {
+
+                Change.newProjectName(currentProject);
                 project(currentProject, employeeID);
 
             } else if (inputLine.matches("^[a-z,A-Z,0-9]+$")) {
@@ -186,5 +213,34 @@ public class Choose {
         } else {
             Main.projectLeader = false;
         }
+    }
+
+    public static void NSA(NSA currentNSA, Employee employeeID) {
+        System.out.println("Menu for personal activity "+currentNSA.Name+" for employee "+employeeID.Name);
+        System.out.println("Startdate: "+currentNSA.StartDate+" \t Enddate: "+currentNSA.EndDate);
+
+        System.out.println("\r\nTo change the name of the personal activity: Please type 'NEWNAME'");
+        System.out.println("To change the startdate of the personal activity: Please type 'NEWSTART");
+        System.out.println("To change the enddate of the personal activity: Please type 'NEWEND'");
+        System.out.println("To go back to the project select screen: Please type 'BACK'");
+
+        while(true) {
+            String inputLine = Main.input.nextLine();
+
+            if(inputLine.equalsIgnoreCase("NEWNAME")) {
+                Change.newNSAName(currentNSA, employeeID);
+                NSA(currentNSA, employeeID);
+            } else if(inputLine.equalsIgnoreCase("NEWSTART")) {
+                Change.newNSAStartDate(currentNSA, currentNSA.EndDate);
+                NSA(currentNSA, employeeID);
+            } else if(inputLine.equalsIgnoreCase("NEWEND")) {
+                Change.newNSAEndDate(currentNSA, currentNSA.StartDate);
+                NSA(currentNSA, employeeID);
+            } else if(inputLine.equalsIgnoreCase("BACK")) {
+                break;
+            }
+
+        }
+
     }
 }

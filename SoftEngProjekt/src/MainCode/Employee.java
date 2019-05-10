@@ -1,4 +1,3 @@
-package planningProject;
 import java.util.ArrayList;
 
 public class Employee {
@@ -14,9 +13,12 @@ public class Employee {
         Activities.add(name);
     }
 
-    public String getName()
-    {
-    	return Name;
+    public void RemoveNonActivity(NSA name) {
+        Activities.remove(name);
     }
-    	
+
+    public String getName() {
+        return Name;
+    }
+
 }

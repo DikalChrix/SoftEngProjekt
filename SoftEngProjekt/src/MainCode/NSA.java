@@ -1,5 +1,3 @@
-package planningProject;
-
 public class NSA extends Activity {
     String ID;
 
@@ -7,7 +5,22 @@ public class NSA extends Activity {
         super(name, startdate, enddate);
         this.ID = employee.getName();
     }
-    
-    
-    
+
+    public void setName(String newName) {
+
+        this.Name=newName;
+
+    }
+
+    public void setStartDate(DateType newStartDate) {
+
+        this.StartDate=newStartDate;
+
+    }
+
+    public void setEndDate(DateType newEndDate) {
+
+        this.EndDate = newEndDate;
+
+    }
 }

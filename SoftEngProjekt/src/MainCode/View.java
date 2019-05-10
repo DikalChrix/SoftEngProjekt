@@ -1,5 +1,3 @@
-package planningProject;
-
 import java.util.*;
 
 public class View {
@@ -19,7 +17,6 @@ public class View {
 
     private static void verifyInputForUserID(String inputLine) {
         if (inputLine.matches("^[A-Z]{3}$")) {
-            assert inputLine.matches("^[A-Z]{3}$"); //pre condition
             Main.currentEmployeeID = Find.employee(inputLine);
 
             verifyUserID();
@@ -53,27 +50,52 @@ public class View {
 
         System.out.println("");
 
+        boolean hasNSA = printAllNSA(employeeID);
+
         boolean inputStatus =false;
         while (!inputStatus) {
             System.out.println("To go to a specific project: Please type the project ID");
+            if(hasNSA) {
+                System.out.println("To go to a specific personal activity: Please type the actvity name");
+            }
             System.out.println("To create an activity: Please type 'CREATE'");
+            System.out.println("To delete an activity: Please type 'REMOVE'");
             System.out.println("To log out: Please type 'LOGOUT'");
             String inputLine = Main.input.nextLine();
             Project currentProject = validProject(inputLine);
-            inputStatus = readUserInput(employeeID, inputStatus, inputLine, currentProject);
+            NSA currentNSA = Find.activityNSA(employeeID, inputLine);
+            inputStatus = readUserInput(employeeID, inputStatus, inputLine, currentProject, currentNSA);
         }
     }
 
+    private static boolean printAllNSA(Employee employeeID) {
+        if(employeeID.Activities.size() > 0) {
+            System.out.println("You have created the following personal activities:");
+            for(int i = 0; i < employeeID.Activities.size(); i++) {
+                System.out.println(employeeID.Activities.get(i).Name);
+            }
+            System.out.println("");
+            return true;
+        }
+        return false;
+    }
+
     private static boolean readUserInput(Employee employeeID, boolean inputStatus, String inputLine,
-                                         Project currentProject) {
+                                         Project currentProject, NSA currentNSA) {
         if(currentProject != null) {
             Choose.project(currentProject, employeeID);
+            overview(employeeID);
+        } else if(currentNSA != null) {
+            Choose.NSA(currentNSA, employeeID);
             overview(employeeID);
         } else if(inputLine.equalsIgnoreCase("CREATE")) {
             Create.newNSA(employeeID);
             overview(employeeID);
         } else if(inputLine.equalsIgnoreCase("LOGOUT")) {
             inputStatus = true;
+        } else if(inputLine.equalsIgnoreCase("REMOVE")) {
+            Change.removeNSA(employeeID);
+            overview(employeeID);
         } else {
             System.out.println("Wrong format, please try again");
         }

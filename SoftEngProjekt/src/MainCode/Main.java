@@ -1,5 +1,3 @@
-package planningProject;
-
 import java.util.*;
 
 public class Main {
@@ -7,8 +5,8 @@ public class Main {
     // Fields
     static boolean projectLeader = false;
     static Scanner input = new Scanner(System.in);
-    public static ArrayList<Project> projectList = new ArrayList<Project>();
-    public static ArrayList<Employee> employeeList = new ArrayList<Employee>();;
+    static ArrayList<Project> projectList = new ArrayList<Project>();
+    static ArrayList<Employee> employeeList;
     static ArrayList<PSA> employeeActivities = new ArrayList<PSA>();
     static Employee currentEmployeeID;
 
@@ -70,7 +68,7 @@ public class Main {
 
         Project project2 = new Project(Name2, "2019", "02", DEF.Name, startDate2, endDate2, activityList2, Main.employeeList);
 
-        // Tilføjer projekter til projektlisten
+        // TilfÃ¸jer projekter til projektlisten
         Main.projectList.add(project1);
         Main.projectList.add(project2);
 

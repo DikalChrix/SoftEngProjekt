@@ -1,5 +1,3 @@
-package planningProject;
-
 public class DateType {
 
 	private String date;
@@ -11,22 +9,18 @@ public class DateType {
 	}
 
 	public static boolean dateChecker(String date) {
-
-		boolean startdate = false;
-
 		// defines our three start-date integers
 		int day = Integer.parseInt(date.split("/")[0]);
 		int month = Integer.parseInt(date.split("/")[1]);
 
 		// Checks if the start-date is right
 		if (day > 31) {
-			
+
 		} else if (month > 12) {
-			
+
 		} else if (date.matches("^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{4}+$")) {
 			return true;
 		}
-
 		return false;
 	}
 

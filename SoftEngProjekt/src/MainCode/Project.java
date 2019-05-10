@@ -1,5 +1,3 @@
-package planningProject;
-
 import java.util.ArrayList;
 
 public class Project {
@@ -44,7 +42,6 @@ public class Project {
         }
     }
 
-
     public String getProjectID() {
         return ProjectYearID + ProjectNumberID;
     }
@@ -66,9 +63,9 @@ public class Project {
     public boolean eContains(Employee ID){
         return Employees.contains(ID);
     }
-    
+
     public boolean aContains(Employee ID) {
-    	return Assistants.contains(ID);
+        return Assistants.contains(ID);
     }
 
     public boolean isProjectLeader(Employee EmployeeID) {

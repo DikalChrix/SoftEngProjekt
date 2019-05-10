@@ -1,5 +1,3 @@
-package planningProject;
-
 import java.util.ArrayList;
 
 public class PSA extends Activity{
@@ -68,14 +66,14 @@ public class PSA extends Activity{
         return hours;
     }
 
-	public void setName(String newName) {
-		
-		this.Name =newName;
-	}
+    public void setName(String newName) {
 
-	public void setEndDate(DateType newEndDate) {
-		
-		this.EndDate = newEndDate;
-		
-	}
+        this.Name =newName;
+    }
+
+    public void setEndDate(DateType newEndDate) {
+
+        this.EndDate = newEndDate;
+
+    }
 }
