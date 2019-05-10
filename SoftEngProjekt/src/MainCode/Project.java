@@ -1,3 +1,5 @@
+package planningProject;
+
 import java.util.ArrayList;
 
 public class Project {
@@ -42,22 +44,11 @@ public class Project {
         }
     }
 
-    // Getter methods
-    public String name() {
-        return ProjectName;
-    }
 
     public String getProjectID() {
         return ProjectYearID + ProjectNumberID;
     }
 
-    public DateType getProjectStartDate() {
-        return StartDate;
-    }
-
-    public DateType getProjectEndDate() {
-        return EndDate;
-    }
 
     public ArrayList<PSA> getProjectActivities() {
         return ActivityList;
