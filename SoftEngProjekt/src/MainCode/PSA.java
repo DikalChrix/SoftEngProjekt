@@ -14,13 +14,16 @@ public class PSA extends Activity{
     }
 
     // Methods
-    public void addHelp(Employee ID, Project Number) {
+    public boolean addHelp(Employee ID, Project Number) {
         if(!Assistants.contains(ID) && !Employees.contains(ID)) {
             Assistants.add(ID);
-            System.out.println(ID + " added as an assistant in activity " + Name + "in project " + Number);
+            //System.out.println(ID + " added as an assistant in activity " + Name + "in project " + Number);
             Number.addHelp(ID);
+            return true;
         } else {
-            System.out.println(ID + " is already part of the team for this activity");
+            return false;
+
+            //System.out.println(ID + " is already part of the team for this activity");
         }
     }
 

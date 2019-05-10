@@ -78,9 +78,6 @@ public class Choose {
     }
 
     private static void timeLeftofActivity(PSA currentActivity) {
-        System.out.println("Startdate of activity: "+currentActivity.StartDate+"\t Enddate of activity: "+currentActivity.EndDate);
-        Datemethods.dateDiff(currentActivity.StartDate, currentActivity.EndDate);
-
         int timeleft = currentActivity.Time-currentActivity.spent();
         System.out.println("Expected hours of work: "+currentActivity.Time+"\t Hours spent: "+currentActivity.spent()+"\t Hours left: "+ timeleft);
     }

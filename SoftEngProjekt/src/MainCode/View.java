@@ -17,20 +17,24 @@ public class View {
 
     private static void verifyInputForUserID(String inputLine) {
         if (inputLine.matches("^[A-Z]{3}$")) {
-
+            assert inputLine.matches("^[A-Z]{3}$"); //pre condition
             Main.currentEmployeeID = Find.employee(inputLine);
 
             verifyUserID();
 
         } else {
+
             System.out.println("Wrong format, please try again");
+
         }
     }
 
     private static void verifyUserID() {
         if (Main.currentEmployeeID == null) {
+
             System.out.println("An employee with that ID does not exist in the system. Please try again");
-        } else {
+
+        }else {
             View.overview(Main.currentEmployeeID);
             login();
         }

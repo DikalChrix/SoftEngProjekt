@@ -91,9 +91,12 @@ public class Change {
     private static boolean addEmployee(PSA currentActivity, Project currentProject, boolean inputstatus,
                                        String employeeID) {
         if(!currentActivity.eContains(Find.employee(employeeID)) && !currentActivity.containsAssistant(Find.employee(employeeID))) {
-            currentActivity.addHelp(Find.employee(employeeID),currentProject);
-            System.out.println("Employee succesfully assigned as assistance to activity: "+currentActivity);
-            inputstatus = true;
+            if(currentActivity.addHelp(Find.employee(employeeID),currentProject)) {
+                inputstatus = true;
+                System.out.println(employeeID + " added as an assistant in activity " + currentActivity.Name + "in project " + currentProject.name());
+            } else {
+                inputstatus = false;
+            }
         } else if(currentActivity.eContains(Find.employee(employeeID))) {
             System.out.println("Employee is already part of the activity");
         } else if(currentActivity.containsAssistant(Find.employee(employeeID))) {
@@ -109,15 +112,29 @@ public class Change {
             System.out.println("Please enter the ID of the employee you wish to add to the activity");
             System.out.println("To go back to activity select type: 'BACK'");
             String inputLine = Main.input.nextLine();
-            if (Main.projectLeader == true && inputLine.matches("[A-Z]{3}+$")) {
-                String employeeID = inputLine;
-                if(employeeDoesExist(employeeID)) {
-                    inputstatus = assignEmployee(currentActivity, inputstatus, employeeID);
-                }
-            } else if (inputLine.equalsIgnoreCase("BACK")) {
-                break;
+            try{
+                inputstatus = checksValidInput(currentActivity, inputstatus, inputLine);
+            }
+            catch(Exception e) {
+                System.out.println(e.getMessage());
             }
         }
+    }
+
+    private static boolean checksValidInput(PSA currentActivity, boolean inputstatus, String inputLine) {
+        if (Main.projectLeader == true && inputLine.matches("[A-Z]{3}+$")) {
+            String employeeID = inputLine;
+            if(employeeDoesExist(employeeID)) {
+                inputstatus = assignEmployee(currentActivity, inputstatus, employeeID);
+            }
+        } else if (inputLine.equalsIgnoreCase("BACK")) {
+            inputstatus = true;
+        } else {
+
+            throw new IllegalArgumentException("Wrong format, please try again");
+            //System.out.println("Wrong format, please try again");
+        }
+        return inputstatus;
     }
 
     private static boolean assignEmployee(PSA currentActivity, boolean inputstatus, String employeeID) {
@@ -127,9 +144,13 @@ public class Change {
                 System.out.println("Employee "+employeeID+" succesfully assigned to activity: "+currentActivity.Name);
                 inputstatus = true;
             } else if(currentActivity.eContains(Find.employee(employeeID))){
-                System.out.println("Employee is already part of this activity");
+
+                throw new IllegalArgumentException("Employee is already part of this activity");
+                //System.out.println("Employee is already part of this activity");
             } else {
-                System.out.println("Employee is not part of this project");
+
+                throw new IllegalArgumentException("Employee is not part of this project");
+                //System.out.println("Employee is not part of this project");
             }
         }
         return inputstatus;

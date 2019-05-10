@@ -7,7 +7,8 @@ public class Find {
         if (Main.employeeList.contains(ID)) {
             for (int i = 0; i < Main.projectList.size(); i++) {
                 if (Main.projectList.get(i).eContains(ID)) {
-                    System.out.println("Project name: " + Main.projectList.get(i).ProjectName + "\tProjectID: " + Main.projectList.get(i).getProjectID());
+                    System.out.println("Project name: " + Main.projectList.get(i).ProjectName
+                            + "\tProjectID: " + Main.projectList.get(i).getProjectID());
                 }
             }
         } else {

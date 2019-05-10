@@ -75,8 +75,6 @@ public class Project {
         // Prints project times
         System.out.printf("%-25s %-25s", "Start date: "+StartDate,"End date: "+EndDate);
         System.out.println("");
-        Datemethods.dateDiff(StartDate,EndDate);
-        System.out.println("");
         System.out.printf("%-20s %-20s %-20s","Expected Hours: " + ExpectedTime, "Logged Hours: " + LoggedTime, "Hours Left: " + TimeLeft);
         System.out.println("\r\n");
         // Prints employees in project
