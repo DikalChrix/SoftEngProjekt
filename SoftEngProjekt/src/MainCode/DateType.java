@@ -9,7 +9,7 @@ public class DateType {
 
 	}
 
-	public static boolean datechecker(String date) {
+	public static boolean dateChecker(String date) {
 
 		boolean startdate = false;
 
@@ -19,13 +19,13 @@ public class DateType {
 
 		// Checks if the start-date is right
 		if (day > 31) {
-			System.out.println("Incorrect date, try again");
+			startdate = false;
 		} else if (month > 12) {
-			System.out.println("Incorrect date, try again");
+			startdate = false;
 		} else if (date.matches("^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{4}+$")) {
 			startdate = true;
 		} else {
-			System.out.println("Incorrect date, try again");
+			startdate = false;
 		}
 
 		if (startdate == true) {
@@ -50,8 +50,23 @@ public class DateType {
 		return year;
 	}
 
-	public String toString()
-	{
+	public String toString(){
 		return date;
+	}
+
+	public static boolean validDate(DateType sDate, DateType eDate) {
+		//Checks if end-date is later than start-date
+		if (sDate.getYear() > eDate.getYear()) {
+			return false;
+		}
+
+		else if (sDate.getYear() == eDate.getYear() && sDate.getMonth() > eDate.getMonth()) {
+			return false;
+		}
+
+		else if (sDate.getYear() == eDate.getYear() && sDate.getMonth() == eDate.getMonth() && sDate.getDay() > eDate.getDay()) {
+			return false;
+		}
+		return true;
 	}
 }

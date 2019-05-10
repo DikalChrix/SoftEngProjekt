@@ -42,63 +42,14 @@ public class Project {
         }
     }
 
-    // Getter methods
-    public String name() {
-        return ProjectName;
-    }
 
     public String getProjectID() {
         return ProjectYearID + ProjectNumberID;
     }
 
-    public DateType getProjectStartDate() {
-        return StartDate;
-    }
-
-    public DateType getProjectEndDate() {
-        return EndDate;
-    }
 
     public ArrayList<PSA> getProjectActivities() {
         return ActivityList;
-    }
-
-    public void getReport() {
-        int ExpectedTime = 0;
-        int LoggedTime = 0;
-        for(int i = 0; i < ActivityList.size(); i++) {
-            PSA selected = ActivityList.get(i);
-            ExpectedTime += selected.Time;
-            LoggedTime += selected.spent();
-        }
-        int TimeLeft = ExpectedTime - LoggedTime;
-        // Prints project times
-        System.out.printf("%-25s %-25s", "Start date: "+StartDate,"End date: "+EndDate);
-        System.out.println("");
-        System.out.printf("%-20s %-20s %-20s","Expected Hours: " + ExpectedTime, "Logged Hours: " + LoggedTime, "Hours Left: " + TimeLeft);
-        System.out.println("\r\n");
-        // Prints employees in project
-        System.out.printf("%42s", "Employees in project:\r\n");
-        for(int i = 0; i < Employees.size(); i++) {
-            Employee selected = Employees.get(i);
-            System.out.printf("%-26s", selected.Name);
-            if((i+1)%3 == 0) {
-                System.out.println("");
-            }
-        }
-        // Prints assistants in project
-        if(Assistants.size() != 0) {
-            System.out.println("\r\n");
-            System.out.printf("%42s", "Assistants in project:\r\n");
-            for(int i = 0; i < Assistants.size(); i++) {
-                Employee selected = Assistants.get(i);
-                System.out.printf("%-26s", selected.Name);
-                if((i+1)%3 == 0) {
-                    System.out.println("");
-                }
-            }
-        }
-        System.out.println("");
     }
 
     // Setter methods

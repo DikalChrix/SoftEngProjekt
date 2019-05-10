@@ -116,13 +116,15 @@ public class Create {
             String inputLine = Main.input.nextLine();
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-                if(DateType.datechecker(inputLine)) {
+                if(DateType.dateChecker(inputLine)) {
                     activityEndDate = new DateType(inputLine);
-                    if(Datemethods.validDate(activityStartDate, activityEndDate)) {
+                    if(DateType.validDate(activityStartDate, activityEndDate)) {
                         break;
                     } else {
                         System.out.println("End date cannot be before start date, please try again");
                     }
+                } else {
+                    System.out.println("Incorrect date, try again");
                 }
             } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject,employeeID);
@@ -141,9 +143,11 @@ public class Create {
 
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-                if(DateType.datechecker(inputLine)) {
+                if(DateType.dateChecker(inputLine)) {
                     activityStartDate = new DateType(inputLine);
                     break;
+                } else {
+                    System.out.println("Incorrect date, try again");
                 }
             } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 Choose.project(currentProject,employeeID);
@@ -204,13 +208,15 @@ public class Create {
             String inputLine = Main.input.nextLine();
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-                if(DateType.datechecker(inputLine)) {
+                if(DateType.dateChecker(inputLine)) {
                     activityEndDate = new DateType(inputLine);
-                    if(Datemethods.validDate(activityStartDate, activityEndDate)) {
+                    if(DateType.validDate(activityStartDate, activityEndDate)) {
                         break;
                     } else {
                         System.out.println("End date cannot be before start date, please try again");
                     }
+                } else {
+                    System.out.println("Incorrect date, try again");
                 }
             } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 View.overview(employeeID);
@@ -229,9 +235,11 @@ public class Create {
 
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-                if(DateType.datechecker(inputLine)) {
+                if(DateType.dateChecker(inputLine)) {
                     activityStartDate = new DateType(inputLine);
                     break;
+                } else {
+                    System.out.println("Incorrect date, try again");
                 }
             } else if (inputLine.equalsIgnoreCase("CANCEL")) {
                 View.overview(employeeID);

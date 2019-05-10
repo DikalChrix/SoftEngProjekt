@@ -120,7 +120,7 @@ public class Choose {
 
             } else if (Main.projectLeader && inputLine.equalsIgnoreCase("REPORT")) {
 
-                currentProject.getReport();
+                View.report(currentProject);
                 System.out.println("");
                 project(currentProject, employeeID);
 
@@ -155,9 +155,9 @@ public class Choose {
     private static void introMessage(Project currentProject, Employee employeeID) {
         System.out.println("Overview for project: " + currentProject.getProjectID()+"\r\n");
         System.out.println(
-                "This project has the following startdate: " + currentProject.getProjectStartDate().toString());
+                "This project has the following startdate: " + currentProject.StartDate.toString());
         System.out.println(
-                "This project has the following expected end date: " + currentProject.getProjectEndDate().toString());
+                "This project has the following expected end date: " + currentProject.EndDate.toString());
         System.out.println("This project consists of the following activities:");
 
         // Metode, som printer alle aktiviteterne i dette projekt

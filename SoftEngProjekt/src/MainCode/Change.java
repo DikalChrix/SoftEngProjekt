@@ -20,13 +20,15 @@ public class Change {
     public static DateType newValidEnddate(String inputLine, DateType startdate) {
         if (inputLine.matches(
                 "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
-            if(DateType.datechecker(inputLine)) {
+            if(DateType.dateChecker(inputLine)) {
                 DateType activityEnddate = new DateType(inputLine);
-                if(Datemethods.validDate(startdate, activityEnddate)) {
+                if(DateType.validDate(startdate, activityEnddate)) {
                     return activityEnddate;
                 } else {
                     System.out.println("End date cannot be before start date, please try again");
                 }
+            } else {
+                System.out.println("Incorrect date, try again");
             }
         }
         return null;
@@ -93,7 +95,7 @@ public class Change {
         if(!currentActivity.eContains(Find.employee(employeeID)) && !currentActivity.containsAssistant(Find.employee(employeeID))) {
             if(currentActivity.addHelp(Find.employee(employeeID),currentProject)) {
                 inputstatus = true;
-                System.out.println(employeeID + " added as an assistant in activity " + currentActivity.Name + "in project " + currentProject.name());
+                System.out.println(employeeID + " added as an assistant in activity " + currentActivity.Name + "in project " + currentProject.ProjectName);
             } else {
                 inputstatus = false;
             }

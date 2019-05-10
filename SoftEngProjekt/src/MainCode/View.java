@@ -112,7 +112,7 @@ public class View {
     }
 
     public static void activity(Project project, boolean projectLeader){
-        System.out.println("List of activities for project: "+project.name());
+        System.out.println("List of activities for project: "+project.ProjectName);
         ArrayList<PSA> activities = project.ActivityList;
         if(activities.size() < 1) {
             System.out.println("Project has no activities");
@@ -121,5 +121,43 @@ public class View {
                 System.out.println(activities.get(i).Name);
             }
         }
+    }
+
+    public static void report(Project project) {
+        int ExpectedTime = 0;
+        int LoggedTime = 0;
+        for(int i = 0; i < project.ActivityList.size(); i++) {
+            PSA selected = project.ActivityList.get(i);
+            ExpectedTime += selected.Time;
+            LoggedTime += selected.spent();
+        }
+        int TimeLeft = ExpectedTime - LoggedTime;
+        // Prints project times
+        System.out.printf("%-25s %-25s", "Start date: "+project.StartDate,"End date: "+project.EndDate);
+        System.out.println("");
+        System.out.printf("%-20s %-20s %-20s","Expected Hours: " + ExpectedTime, "Logged Hours: " + LoggedTime, "Hours Left: " + TimeLeft);
+        System.out.println("\r\n");
+        // Prints employees in project
+        System.out.printf("%42s", "Employees in project:\r\n");
+        for(int i = 0; i < project.Employees.size(); i++) {
+            Employee selected = project.Employees.get(i);
+            System.out.printf("%-26s", selected.Name);
+            if((i+1)%3 == 0) {
+                System.out.println("");
+            }
+        }
+        // Prints assistants in project
+        if(project.Assistants.size() != 0) {
+            System.out.println("\r\n");
+            System.out.printf("%42s", "Assistants in project:\r\n");
+            for(int i = 0; i < project.Assistants.size(); i++) {
+                Employee selected = project.Assistants.get(i);
+                System.out.printf("%-26s", selected.Name);
+                if((i+1)%3 == 0) {
+                    System.out.println("");
+                }
+            }
+        }
+        System.out.println("");
     }
 }

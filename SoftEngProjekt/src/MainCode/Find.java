@@ -77,4 +77,17 @@ public class Find {
         }
         return placeholder;
     }
+
+    public static NSA activityNSA(Employee ID, String activityName) {
+        if(ID.Activities.size() == 0) {
+
+        } else {
+            for(int i = 0; i < ID.Activities.size(); i++) {
+                if(ID.Activities.get(i).Name == activityName) {
+                    return ID.Activities.get(i);
+                }
+            }
+        }
+        return null;
+    }
 }
