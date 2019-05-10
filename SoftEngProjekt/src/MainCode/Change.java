@@ -1,3 +1,5 @@
+package planningProject;
+
 public class Change {
     // Change enddate for project
     public static void enddate(Project currentProject, Employee employeeID, DateType startdate) {

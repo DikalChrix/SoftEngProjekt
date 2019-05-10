@@ -1,3 +1,4 @@
+package planningProject;
 
 public class Choose {
 

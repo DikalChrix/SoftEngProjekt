@@ -1,10 +1,12 @@
+package planningProject;
+
 import java.util.ArrayList;
 
 public class PSA extends Activity{
-    public ArrayList<Employee> Employees;
-    public ArrayList<Employee> Assistants;
-    private ArrayList<Integer> TimeSpent;
-    int Time;
+    public ArrayList<Employee> Employees = new ArrayList<Employee>();;
+    public ArrayList<Employee> Assistants = new ArrayList<Employee>();
+    private ArrayList<Integer> TimeSpent = new ArrayList<Integer>();
+    public int Time;
 
     public PSA(String name, int hours, DateType startdate, DateType enddate, ArrayList<Employee> employees){
         super(name, startdate, enddate);
@@ -65,4 +67,15 @@ public class PSA extends Activity{
         this.Time = hours;
         return hours;
     }
+
+	public void setName(String newName) {
+		
+		this.Name =newName;
+	}
+
+	public void setEndDate(DateType newEndDate) {
+		
+		this.EndDate = newEndDate;
+		
+	}
 }

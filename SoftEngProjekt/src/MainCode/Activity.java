@@ -1,3 +1,5 @@
+package planningProject;
+
 public abstract class Activity {
 
     public String Name;
@@ -11,3 +13,5 @@ public abstract class Activity {
         this.EndDate = enddate;
     }
 }
+
+    

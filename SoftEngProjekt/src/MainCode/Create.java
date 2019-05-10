@@ -1,3 +1,5 @@
+package planningProject;
+
 import java.util.ArrayList;
 
 public class Create {
@@ -257,7 +259,7 @@ public class Create {
             String inputLine = Main.input.nextLine();
             if(inputLine.length() < 1) {
                 System.out.println("Wrong format");
-            } else if (employeeID.findActivity(inputLine) != null) {
+            } else if (Find.activityNSA(employeeID, inputLine)!= null) {
                 System.out.println("An activity with this name already exists. Please try again");
             } else if(inputLine.equalsIgnoreCase("CANCEL")) {
                 View.overview(employeeID);

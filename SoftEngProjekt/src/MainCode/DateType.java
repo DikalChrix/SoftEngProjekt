@@ -1,3 +1,4 @@
+package planningProject;
 
 public class DateType {
 
@@ -19,20 +20,14 @@ public class DateType {
 
 		// Checks if the start-date is right
 		if (day > 31) {
-			startdate = false;
+			
 		} else if (month > 12) {
-			startdate = false;
+			
 		} else if (date.matches("^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{4}+$")) {
-			startdate = true;
-		} else {
-			startdate = false;
+			return true;
 		}
 
-		if (startdate == true) {
-			return true;
-		} else {
-			return false;
-		}
+		return false;
 	}
 
 	public int getDay() {

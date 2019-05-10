@@ -1,3 +1,4 @@
+package planningProject;
 import java.util.ArrayList;
 
 public class Employee {
@@ -13,16 +14,9 @@ public class Employee {
         Activities.add(name);
     }
 
-    public NSA findActivity(String name) {
-        if(Activities.size() == 0) {
-
-        } else {
-            for(int i = 0; i < Activities.size(); i++) {
-                if(Activities.get(i).Name == name) {
-                    return Activities.get(i);
-                }
-            }
-        }
-        return null;
+    public String getName()
+    {
+    	return Name;
     }
+    	
 }

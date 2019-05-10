@@ -1,3 +1,5 @@
+package planningProject;
+
 import java.util.ArrayList;
 
 public class Find {
@@ -16,7 +18,7 @@ public class Find {
         }
     }
 
-    // Metode, som sÃ¸ger gennem projektlisten og returnerer rigtigt projekt ud fra
+    // Metode, som søger gennem projektlisten og returnerer rigtigt projekt ud fra
     // ID
     public static Project project(String yearID, String numID) {
         if(Main.projectList.size() > 0) {

@@ -1,3 +1,5 @@
+package planningProject;
+
 import java.util.ArrayList;
 
 public class Project {
@@ -47,11 +49,6 @@ public class Project {
         return ProjectYearID + ProjectNumberID;
     }
 
-
-    public ArrayList<PSA> getProjectActivities() {
-        return ActivityList;
-    }
-
     // Setter methods
     public void setProjectName(String newName) {
         this.ProjectName = newName;
@@ -65,14 +62,13 @@ public class Project {
         this.EndDate = newEndDate;
     }
 
-    public void setProjectTime(DateType newStartDate, DateType newEndDate) {
-        StartDate = newStartDate;
-        EndDate = newEndDate;
-    }
-
     // Find methods
     public boolean eContains(Employee ID){
-        return Employees.contains(ID) || Assistants.contains(ID);
+        return Employees.contains(ID);
+    }
+    
+    public boolean aContains(Employee ID) {
+    	return Assistants.contains(ID);
     }
 
     public boolean isProjectLeader(Employee EmployeeID) {
