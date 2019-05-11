@@ -1,79 +1,78 @@
 import java.util.ArrayList;
 
 public class PSA extends Activity{
-    public ArrayList<Employee> Employees = new ArrayList<Employee>();;
-    public ArrayList<Employee> Assistants = new ArrayList<Employee>();
-    private ArrayList<Integer> TimeSpent = new ArrayList<Integer>();
-    public int Time;
+    private ArrayList<Employee> employees = new ArrayList<Employee>();;
+    private ArrayList<Employee> assistants = new ArrayList<Employee>();
+    private ArrayList<Integer> timeSpent = new ArrayList<Integer>();
+    private int time;
 
     public PSA(String name, int hours, DateType startdate, DateType enddate, ArrayList<Employee> employees){
         super(name, startdate, enddate);
-        this.Time = hours;
-        this.Employees = employees;
-        this.TimeSpent = new ArrayList<Integer>();
+        this.time = hours;
+        this.employees = employees;
+        this.timeSpent = new ArrayList<Integer>();
     }
 
     // Methods
     public boolean addHelp(Employee ID, Project Number) {
-        if(!Assistants.contains(ID) && !Employees.contains(ID)) {
-            Assistants.add(ID);
-            //System.out.println(ID + " added as an assistant in activity " + Name + "in project " + Number);
+    	// 1
+        if(!assistants.contains(ID) && !employees.contains(ID)) {
+            assistants.add(ID);
             Number.addHelp(ID);
             return true;
-        } else {
-            return false;
-
-            //System.out.println(ID + " is already part of the team for this activity");
-        }
+        } 
+        return false;
     }
 
     public int registerTime(int i){
-        TimeSpent.add(i);
+        timeSpent.add(i);
         return spent();
     }
 
     public void addEmployee(Employee employee){
-        Employees.add(employee);
+        employees.add(employee);
     }
 
     public void removeEmployee(Employee employee){
-        Employees.remove(employee);
+        employees.remove(employee);
     }
 
     public void removeHelp(Employee employee) {
-        Assistants.remove(employee);
+        assistants.remove(employee);
     }
 
     public boolean eContains(Employee employee) {
-        return Employees.contains(employee);
+        return employees.contains(employee);
     }
 
     public boolean containsAssistant(Employee employee) {
-        return Assistants.contains(employee);
+        return assistants.contains(employee);
     }
 
     // Getter methods
     public int spent() {
         int timespent = 0;
-        for(int i = 0; i < TimeSpent.size(); i++) {
-            timespent += TimeSpent.get(i);
+        for(int i = 0; i < timeSpent.size(); i++) {
+            timespent += timeSpent.get(i);
         }
         return timespent;
     }
 
-    public int ChangeExpectedTime(int hours){
-        this.Time = hours;
+    public ArrayList<Employee> getEmployees(){
+    	return employees;
+    }
+    
+    public ArrayList<Employee> getAssistants(){
+    	return assistants;
+    }
+    
+    public int getTime() {
+    	return time;
+    }
+    
+    // Setter methods   
+    public int changeExpectedTime(int hours){
+        this.time = hours;
         return hours;
-    }
-
-    public void setName(String newName) {
-
-        this.Name =newName;
-    }
-
-    public void setEndDate(DateType newEndDate) {
-
-        this.EndDate = newEndDate;
-
     }
 }

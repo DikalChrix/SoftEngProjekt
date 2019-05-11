@@ -2,23 +2,28 @@ import java.util.ArrayList;
 
 public class Employee {
 
-    public String Name;
-    public ArrayList<NSA> Activities = new ArrayList<NSA>();
+    private String name;
+    private ArrayList<NSA> activities = new ArrayList<NSA>();
 
-    public Employee(String Name) {
-        this.Name=Name;
+    public Employee(String newName) {
+        this.name = newName;
     }
 
+    // Setter methods
     public void AddNonActivity(NSA name) {
-        Activities.add(name);
+        activities.add(name);
     }
 
     public void RemoveNonActivity(NSA name) {
-        Activities.remove(name);
+        activities.remove(name);
     }
 
+    // Getter methods
     public String getName() {
-        return Name;
+        return name;
     }
-
+    
+    public ArrayList<NSA> getActivities(){
+    	return activities;
+    }
 }

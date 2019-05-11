@@ -5,7 +5,7 @@ public class Change {
 
         while (true) {
             System.out.println("To cancel selection of new enddate, please type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             DateType projectEnddate = newValidEnddate(inputLine,startdate);
             if(projectEnddate != null) {
                 currentProject.setProjectEndDate(projectEnddate);
@@ -43,7 +43,7 @@ public class Change {
             System.out.println("Enter new amount of hours");
             System.out.println("To go back to activity select type: 'BACK'");
 
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if(inputLine.matches("^[0-9]+$")) {
                 inputStatus = changeTime(currentActivity, inputStatus, inputLine);
             } else if(inputLine.equalsIgnoreCase("BACK")) {
@@ -57,7 +57,7 @@ public class Change {
     private static boolean changeTime(PSA currentActivity, boolean inputStatus, String inputLine) {
         int hours = Integer.parseInt(inputLine);
         if (hours > 0) {
-            currentActivity.ChangeExpectedTime(hours);
+            currentActivity.changeExpectedTime(hours);
             System.out.println("Expected time changed to: "+hours);
             inputStatus = true;
         } else {
@@ -73,7 +73,7 @@ public class Change {
             System.out.println("Please enter the ID of the employee you wish to add as assistance");
             System.out.println("To go back to activity select: Please type 'BACK'");
 
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
 
             if (projectLeader && inputLine.matches("^[A-Z]{3}+$")) {
                 inputstatus = assignAssistant(currentActivity, currentProject, inputLine);
@@ -100,7 +100,7 @@ public class Change {
             System.out.println("Please enter the ID of the assistant you wish to remove from the activity");
             System.out.println("To go back to activity select type: 'BACK'");
 
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
 
             if (inputLine.matches("^[A-Z]{3}+$")) {
                 String employeeID = inputLine;
@@ -117,7 +117,7 @@ public class Change {
     private static boolean removeAssistant(PSA currentActivity, boolean inputstatus, String assistantID) {
         if(currentActivity.containsAssistant(Find.employee(assistantID))) {
             currentActivity.removeHelp(Find.employee(assistantID));
-            System.out.println("Assistant "+assistantID+" succesfully removed from activity: "+currentActivity.Name);
+            System.out.println("Assistant "+assistantID+" succesfully removed from activity: "+currentActivity.getName());
             inputstatus = true;
         } else {
             System.out.println("Assistant is not part of this activity");
@@ -131,7 +131,8 @@ public class Change {
         if(!currentActivity.eContains(Find.employee(employeeID)) && !currentActivity.containsAssistant(Find.employee(employeeID))) {
             if(currentActivity.addHelp(Find.employee(employeeID),currentProject)) {
                 inputstatus = true;
-                System.out.println(employeeID + " added as an assistant in activity " + currentActivity.Name + "in project " + currentProject.ProjectName);
+                System.out.println(employeeID + " added as an assistant in activity " + currentActivity.getName()
+                + "in project " + currentProject.getName());
             } else {
                 inputstatus = false;
             }
@@ -149,7 +150,7 @@ public class Change {
         while (!inputstatus) {
             System.out.println("Please enter the ID of the employee you wish to add to the activity");
             System.out.println("To go back to activity select type: 'BACK'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             inputstatus = checksValidInput(currentActivity, inputstatus, inputLine);
         }
     }
@@ -174,7 +175,7 @@ public class Change {
         if(!currentActivity.eContains(Find.employee(employeeID))) {
             if(currentActivity.eContains(Find.employee(employeeID))) {
                 currentActivity.addEmployee(Find.employee(employeeID));
-                System.out.println("Employee "+employeeID+" succesfully assigned to activity: "+currentActivity.Name);
+                System.out.println("Employee "+employeeID+" succesfully assigned to activity: "+currentActivity.getName());
                 inputstatus = true;
             } else if(currentActivity.eContains(Find.employee(employeeID))){
 
@@ -204,7 +205,7 @@ public class Change {
         while (!inputstatus) {
             System.out.println("Please enter the ID of the employee you wish to remove from the activity");
             System.out.println("To go back to activity select type: 'BACK'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if (inputLine.matches("^[A-Z]{3}+$")) {
                 String employeeID = inputLine;
                 if (employeeDoesExist(employeeID)) {
@@ -219,7 +220,7 @@ public class Change {
     private static boolean unAssignEmployee(PSA currentActivity, boolean inputstatus, String employeeID) {
         if(currentActivity.eContains(Find.employee(employeeID))) {
             currentActivity.removeEmployee(Find.employee(employeeID));
-            System.out.println("Employee "+employeeID+" succesfully unassigned from activity: "+currentActivity.Name);
+            System.out.println("Employee "+employeeID+" succesfully unassigned from activity: "+currentActivity.getName());
             inputstatus = true;
         } else {
             System.out.println("Employee is not part of this activity");
@@ -232,7 +233,7 @@ public class Change {
         boolean inputStatus = false;
         while(!inputStatus) {
             System.out.println("Enter hours:");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if(inputLine.matches("^[0-9]+$")) {
                 inputStatus = addHoursToActivity(currentActivity, inputStatus, inputLine);
             } else if(inputLine.equalsIgnoreCase("BACK")) {
@@ -248,7 +249,7 @@ public class Change {
         int hours = Integer.parseInt(inputLine);
         if(hours > 0) {
             currentActivity.registerTime(hours);
-            System.out.println(hours+" was added to the time of the worktime of activity "+currentActivity.Name);
+            System.out.println(hours+" was added to the time of the worktime of activity "+currentActivity.getName());
             inputStatus = true;
         } else {
             System.out.println("Hours cannot be less than 1, please try again");
@@ -258,12 +259,12 @@ public class Change {
     }
 
     public static void removeNSA(Employee employeeID) {
-        if(employeeID.Activities.size() > 0) {
+        if(employeeID.getActivities().size() > 0) {
             printAllNSA(employeeID);
             while(true) {
                 System.out.println("\r\nEnter the activity you wish to remove:");
 
-                String inputLine = Main.input.nextLine();
+                String inputLine = Main.scanner();
 
                 if(Find.activityNSA(employeeID, inputLine) != null) {
                     employeeID.RemoveNonActivity(Find.activityNSA(employeeID, inputLine));
@@ -280,23 +281,23 @@ public class Change {
 
     private static void printAllNSA(Employee employeeID) {
         System.out.println("List of personal activities:");
-        for(int i = 0; i < employeeID.Activities.size(); i++) {
-            System.out.println(employeeID.Activities.get(i).Name);
+        for(int i = 0; i < employeeID.getActivities().size(); i++) {
+            System.out.println(employeeID.getActivities().get(i).getName());
         }
     }
 
     public static void removePSA(Project currentProject) {
-        if(currentProject.ActivityList.size() > 0) {
+        if(currentProject.getActivities().size() > 0) {
             printAllPSA(currentProject);
 
             while(true) {
                 System.out.println("\r\nEnter the activity you wish to remove");
 
-                String inputLine = Main.input.nextLine();
+                String inputLine = Main.scanner();
 
                 if(Find.activity(currentProject, inputLine) != null) {
                     currentProject.removeActivity(Find.activity(currentProject, inputLine));
-                    System.out.println("The activity "+inputLine+" was removed from the project "+currentProject.ProjectName+"\r\n");
+                    System.out.println("The activity "+inputLine+" was removed from the project "+currentProject.getName()+"\r\n");
                     break;
                 } else {
                     System.out.println("Activity does not exist");
@@ -309,8 +310,8 @@ public class Change {
 
     private static void printAllPSA(Project currentProject) {
         System.out.println("List of all activities in project:");
-        for(int i = 0; i < currentProject.ActivityList.size(); i++) {
-            System.out.println(currentProject.ActivityList.get(i).Name);
+        for(int i = 0; i < currentProject.getActivities().size(); i++) {
+            System.out.println(currentProject.getActivities().get(i).getName());
         }
     }
 
@@ -319,7 +320,7 @@ public class Change {
         System.out.println("To cancel selection of new name: Please type 'CANCEL'");
         boolean inputStatus = false;
         while(!inputStatus) {
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             inputStatus = readNSANameInput(currentNSA, employeeID, inputStatus, inputLine);
         }
     }
@@ -341,7 +342,7 @@ public class Change {
         } else if(inputLine.matches("^[ ]{1,}") || inputLine.equals(null)) {
             System.out.println("New name cannot be empty");
         } else {
-            System.out.println("Name of activity "+currentNSA.Name+" succesfully changed to: "+inputLine);
+            System.out.println("Name of activity "+currentNSA.getName()+" succesfully changed to: "+inputLine);
             currentNSA.setName(inputLine);
             inputStatus = true;
         }
@@ -352,7 +353,7 @@ public class Change {
         System.out.println("Please enter new startdate DD/MM/YYYY");
         while (true) {
             System.out.println("To cancel selection of new startdate, please type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             DateType activityStartDate = newValidNSAStartDate(inputLine,enddate);
             if(activityStartDate != null) {
                 currentNSA.setEndDate(activityStartDate);
@@ -387,7 +388,7 @@ public class Change {
         System.out.println("Please enter new enddate DD/MM/YYYY");
         while (true) {
             System.out.println("To cancel selection of new enddate, please type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             DateType activityEndDate = newValidNSAEndDate(inputLine,startdate);
             if(activityEndDate != null) {
                 currentNSA.setEndDate(activityEndDate);
@@ -423,7 +424,7 @@ public class Change {
         System.out.println("To cancel selection of new name: Please type 'CANCEL'");
         boolean inputStatus = false;
         while(!inputStatus) {
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             inputStatus = readProjectNameInput(currentProject, inputStatus, inputLine);
         }
     }
@@ -445,7 +446,7 @@ public class Change {
         } else if(inputLine.matches("^[ ]{1,}") || inputLine.equals(null)) {
             System.out.println("New name cannot be empty");
         } else {
-            System.out.println("Name of activity "+currentProject.ProjectName+" succesfully changed to: "+inputLine);
+            System.out.println("Name of activity "+currentProject.getName()+" succesfully changed to: "+inputLine);
             currentProject.setProjectName(inputLine);
             inputStatus = true;
         }
@@ -453,9 +454,9 @@ public class Change {
     }
 
     private static Project findProjectName(String projectName) {
-        for(int i = 0; i < Main.projectList.size(); i++) {
-            if(Main.projectList.get(i).ProjectName.equals(projectName)) {
-                return Main.projectList.get(i);
+        for(int i = 0; i < Main.getProjects().size(); i++) {
+            if(Main.getProjects().get(i).getName().equals(projectName)) {
+                return Main.getProjects().get(i);
             }
         }
         return null;
@@ -465,7 +466,7 @@ public class Change {
         System.out.println("Please enter new enddate DD/MM/YYYY");
         while (true) {
             System.out.println("To cancel selection of new enddate, please type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             DateType activityEndDate = newValidPSAEndDate(inputLine,startdate);
             if(activityEndDate != null) {
                 currentPSA.setEndDate(activityEndDate);
@@ -501,7 +502,7 @@ public class Change {
         System.out.println("To cancel selection of new name: Please type 'CANCEL'");
         boolean inputStatus = false;
         while(!inputStatus) {
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             inputStatus = readPSANameInput(currentProject, currentActivity, inputStatus, inputLine);
         }
     }
@@ -523,7 +524,7 @@ public class Change {
         } else if(inputLine.matches("^[ ]{1,}") || inputLine.equals(null)) {
             System.out.println("New name cannot be empty, try again");
         } else {
-            System.out.println("Name of activity "+currentActivity.Name+" succesfully changed to: "+inputLine);
+            System.out.println("Name of activity "+currentActivity.getName()+" succesfully changed to: "+inputLine);
             currentActivity.setName(inputLine);
             inputStatus = true;
         }

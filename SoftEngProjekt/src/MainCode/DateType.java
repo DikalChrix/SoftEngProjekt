@@ -14,11 +14,8 @@ public class DateType {
 		int month = Integer.parseInt(date.split("/")[1]);
 
 		// Checks if the start-date is right
-		if (day > 31) {
-
-		} else if (month > 12) {
-
-		} else if (date.matches("^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{4}+$")) {
+		// 1
+		if (day <= 31 && month <= 12 && date.matches("^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{4}+$")) {
 			return true;
 		}
 		return false;
@@ -45,15 +42,9 @@ public class DateType {
 
 	public static boolean validDate(DateType sDate, DateType eDate) {
 		//Checks if end-date is later than start-date
-		if (sDate.getYear() > eDate.getYear()) {
-			return false;
-		}
-
-		else if (sDate.getYear() == eDate.getYear() && sDate.getMonth() > eDate.getMonth()) {
-			return false;
-		}
-
-		else if (sDate.getYear() == eDate.getYear() && sDate.getMonth() == eDate.getMonth() && sDate.getDay() > eDate.getDay()) {
+		// 1
+		if ((sDate.getYear() > eDate.getYear()) || (sDate.getYear() == eDate.getYear() && sDate.getMonth() > eDate.getMonth()) 
+				|| (sDate.getYear() == eDate.getYear() && sDate.getMonth() == eDate.getMonth() && sDate.getDay() > eDate.getDay())) {
 			return false;
 		}
 		return true;

@@ -28,7 +28,7 @@ public class Create {
                 employeeListActivity);
         currentProject.addActivity(activityPlaceholder);
 
-        System.out.println("The activity"+nameActivity+" was succesfully added to the project "+currentProject.ProjectName+"\r\n");
+        System.out.println("The activity"+nameActivity+" was succesfully added to the project "+currentProject.getName()+"\r\n");
         Choose.project(currentProject,employeeID);
     }
 
@@ -41,7 +41,7 @@ public class Create {
             }
             boolean inputstatus = false;
             while (!inputstatus) {
-                String inputLine = Main.input.nextLine();
+                String inputLine = Main.scanner();
                 if (inputLine.matches("^[A-Z]{3}+$")) {
 
                     inputstatus = doesEmployeeExist(currentProject, employeeID, employeeListActivity, inputLine);
@@ -77,7 +77,7 @@ public class Create {
         while (true) {
             System.out.println("How many employees should be added to the project?");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if (inputLine.matches("^[0-9]+$")) {
                 employeesNumberActivity = Integer.parseInt(inputLine);
                 break;
@@ -94,7 +94,7 @@ public class Create {
         while (true) {
             System.out.println("How many hours of work should the activity contain?");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if (inputLine.matches("^[0-9]{1,}+$")) {
                 hoursActivity = Integer.parseInt(inputLine);
                 if (hoursActivity > 0) {
@@ -116,7 +116,7 @@ public class Create {
         while (true) {
             System.out.println("On which date should the activity end? DD/MM/YYYY");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
                 if(DateType.dateChecker(inputLine)) {
@@ -142,7 +142,7 @@ public class Create {
         while (true) {
             System.out.println("On which date should the activity start? DD/MM/YYYY");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
 
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
@@ -165,7 +165,7 @@ public class Create {
         while (true) {
             System.out.println("What is the name of the activity?");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if (Find.activity(currentProject, inputLine) != null) {
                 System.out.println("An activity with this name already exists. Please try again");
             }else if(inputLine.equalsIgnoreCase("CANCEL")) {
@@ -211,7 +211,7 @@ public class Create {
         while (true) {
             System.out.println("On which date should the activity end? DD/MM/YYYY");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
                 if(DateType.dateChecker(inputLine)) {
@@ -237,7 +237,7 @@ public class Create {
         while (true) {
             System.out.println("On which date should the activity start? DD/MM/YYYY");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
 
             if (inputLine.matches(
                     "^[0-3]{1}+[0-9]{1}+[/]{1}+[0-1]{1}+[0-9]{1}+[/]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+[0-9]{1}+$")) {
@@ -260,7 +260,7 @@ public class Create {
         while (true) {
             System.out.println("What is the name of the activity?");
             System.out.println("To cancel creation of activity type: 'CANCEL'");
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if(inputLine.length() < 1) {
                 System.out.println("Wrong format");
             } else if (Find.activityNSA(employeeID, inputLine)!= null) {

@@ -1,12 +1,16 @@
+import java.util.ArrayList;
+
 public class Choose {
 
+    private static ArrayList<PSA> employeeActivities = new ArrayList<PSA>();
+	
     // If activity is chosen
     public static void activity(PSA currentActivity, Project currentProject, boolean projectLeader, Employee employeeID) {
         // Local variable declaration
         String inputLine;
         boolean inputStatus = false;
 
-        System.out.println("Menu for activity "+currentActivity.Name);
+        System.out.println("Menu for activity "+currentActivity.getName());
 
         while(!inputStatus) {
 
@@ -21,7 +25,7 @@ public class Choose {
             System.out.println("To ask for assistance type: 'HELP'");
             System.out.println("To go back to activity select type: 'BACK'");
 
-            inputLine = Main.input.nextLine();
+            inputLine = Main.scanner();
 
             inputStatus = readPSAInput(currentActivity, currentProject, projectLeader, employeeID, inputLine,
                     inputStatus);
@@ -64,7 +68,7 @@ public class Choose {
                 activity(currentActivity, currentProject, projectLeader, employeeID);
 
             } else if(inputLine.equalsIgnoreCase("ENDDATE")) {
-                Change.newPSAEndDate(currentActivity, currentActivity.StartDate);
+                Change.newPSAEndDate(currentActivity, currentActivity.getStartDate());
 
             } else if(inputLine.equalsIgnoreCase("NEWNAME")) {
                 Change.newPSAName(currentProject, currentActivity);
@@ -74,10 +78,10 @@ public class Choose {
 
     private static void ifActivityProjectLeader(PSA currentActivity, boolean projectLeader) {
         if(projectLeader) {
-            System.out.println("List of employees in activity: " + currentActivity.Name);
-            if(currentActivity.Employees.size() > 0) {
-                for(int i = 0; i < currentActivity.Employees.size(); i++) {
-                    System.out.println(currentActivity.Employees.get(i).Name);
+            System.out.println("List of employees in activity: " + currentActivity.getName());
+            if(currentActivity.getEmployees().size() > 0) {
+                for(int i = 0; i < currentActivity.getEmployees().size(); i++) {
+                    System.out.println(currentActivity.getEmployees().get(i).getName());
                 }
                 System.out.println("");
             } else {
@@ -92,13 +96,13 @@ public class Choose {
     }
 
     private static void timeLeftofActivity(PSA currentActivity) {
-        int timeleft = currentActivity.Time-currentActivity.spent();
-        System.out.println("Expected hours of work: "+currentActivity.Time+"\t Hours spent: "+currentActivity.spent()+"\t Hours left: "+ timeleft);
+        int timeleft = currentActivity.getTime()-currentActivity.spent();
+        System.out.println("Expected hours of work: "+currentActivity.getTime()+"\t Hours spent: "+currentActivity.spent()+"\t Hours left: "+ timeleft);
     }
 
     // If project is chosen
     public static void project(Project currentProject, Employee employeeID) {
-        System.out.println("Menu for project "+currentProject.ProjectName);
+        System.out.println("Menu for project "+currentProject.getName());
 
         isCurrentProjectLeader(currentProject, employeeID);
 
@@ -121,14 +125,14 @@ public class Choose {
 
     private static void readProjectInput(Project currentProject, Employee employeeID) {
         while(true) {
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
             if (inputLine.equalsIgnoreCase("BACK")) {
 
                 View.overview(employeeID);
 
             } else if (Main.projectLeader && inputLine.equalsIgnoreCase("ENDDATE")) {
 
-                Change.enddate(currentProject, employeeID, currentProject.StartDate);
+                Change.enddate(currentProject, employeeID, currentProject.getStartDate());
                 project(currentProject, employeeID);
 
             } else if (Main.projectLeader && inputLine.matches("NEWACT")) {
@@ -169,7 +173,7 @@ public class Choose {
             System.out.println("The activity does not exist, please try again");
         } else {
             // Choose activity
-            if(Main.employeeActivities.contains(currentActivity) || Main.projectLeader) {
+            if(employeeActivities.contains(currentActivity) || Main.projectLeader) {
                 Choose.activity(currentActivity, currentProject, Main.projectLeader, employeeID);
                 project(currentProject, employeeID);
             } else {
@@ -183,19 +187,19 @@ public class Choose {
     private static void introMessage(Project currentProject, Employee employeeID) {
         System.out.println("Overview for project: " + currentProject.getProjectID()+"\r\n");
         System.out.println(
-                "This project has the following startdate: " + currentProject.StartDate.toString());
+                "This project has the following startdate: " + currentProject.getStartDate().toString());
         System.out.println(
-                "This project has the following expected end date: " + currentProject.EndDate.toString());
+                "This project has the following expected end date: " + currentProject.getEndDate().toString());
         System.out.println("This project consists of the following activities:");
 
         // Metode, som printer alle aktiviteterne i dette projekt
         View.activity(currentProject, Main.projectLeader);
 
-        if(!Main.projectLeader) {
-            Main.employeeActivities = Find.activityOfEmployee(currentProject,employeeID);
+        if(!Main.getProjectLeaderStatus()) {
+            employeeActivities = Find.activitiesOfEmployee(currentProject,employeeID);
             System.out.println("\r\nYou are part of the team for the following activities:");
-            for(int i = 0; i < Main.employeeActivities.size(); i++) {
-                System.out.println(Main.employeeActivities.get(i).Name);
+            for(int i = 0; i < employeeActivities.size(); i++) {
+                System.out.println(employeeActivities.get(i).getName());
             }
         }
 
@@ -216,8 +220,8 @@ public class Choose {
     }
 
     public static void NSA(NSA currentNSA, Employee employeeID) {
-        System.out.println("Menu for personal activity "+currentNSA.Name+" for employee "+employeeID.Name);
-        System.out.println("Startdate: "+currentNSA.StartDate+" \t Enddate: "+currentNSA.EndDate);
+        System.out.println("Menu for personal activity "+currentNSA.getName()+" for employee "+employeeID.getName());
+        System.out.println("Startdate: "+currentNSA.getStartDate()+" \t Enddate: "+currentNSA.getEndDate());
 
         System.out.println("\r\nTo change the name of the personal activity: Please type 'NEWNAME'");
         System.out.println("To change the startdate of the personal activity: Please type 'NEWSTART");
@@ -225,16 +229,16 @@ public class Choose {
         System.out.println("To go back to the project select screen: Please type 'BACK'");
 
         while(true) {
-            String inputLine = Main.input.nextLine();
+            String inputLine = Main.scanner();
 
             if(inputLine.equalsIgnoreCase("NEWNAME")) {
                 Change.newNSAName(currentNSA, employeeID);
                 NSA(currentNSA, employeeID);
             } else if(inputLine.equalsIgnoreCase("NEWSTART")) {
-                Change.newNSAStartDate(currentNSA, currentNSA.EndDate);
+                Change.newNSAStartDate(currentNSA, currentNSA.getEndDate());
                 NSA(currentNSA, employeeID);
             } else if(inputLine.equalsIgnoreCase("NEWEND")) {
-                Change.newNSAEndDate(currentNSA, currentNSA.StartDate);
+                Change.newNSAEndDate(currentNSA, currentNSA.getStartDate());
                 NSA(currentNSA, employeeID);
             } else if(inputLine.equalsIgnoreCase("BACK")) {
                 break;

@@ -4,17 +4,39 @@ public class Main {
 
     // Fields
     static boolean projectLeader = false;
-    static Scanner input = new Scanner(System.in);
-    static ArrayList<Project> projectList = new ArrayList<Project>();
-    static ArrayList<Employee> employeeList;
-    static ArrayList<PSA> employeeActivities = new ArrayList<PSA>();
-    static Employee currentEmployeeID;
+    private static Scanner input = new Scanner(System.in);
+    private static ArrayList<Project> projectList = new ArrayList<Project>();
+    private static ArrayList<Employee> employeeList;
 
     public static void main(String[] args) {
-        setup();
+        Main.setup();
         View.login();
     }
 
+    public static boolean getProjectLeaderStatus() {
+    	return projectLeader;
+    }
+    
+    public static String scanner() {
+    	return input.nextLine();
+    }
+    
+    public void changeProjectLeaderStatus(boolean projectLeaderStatus) {
+    	projectLeader = projectLeaderStatus;
+    }
+    
+    public static ArrayList<Project> getProjects(){
+    	return projectList;
+    }
+    
+    public static ArrayList<Employee> getEmployees(){
+    	return employeeList;
+    }
+    
+    
+    
+    
+    
     // Setup, fills program with content
     public static void setup() {
         //Laver 10 employees-logins
@@ -30,7 +52,7 @@ public class Main {
         Employee OEA = new Employee("OEA");
 
         //Laver liste med employees
-        Main.employeeList = new ArrayList<Employee>(Arrays.asList(ABC,DEF,GHI,JKL,MNO,PQR,STU,WVX,YZA,OEA));
+        employeeList = new ArrayList<Employee>(Arrays.asList(ABC,DEF,GHI,JKL,MNO,PQR,STU,WVX,YZA,OEA));
 
 
         //Opretter aktiviteter
@@ -58,7 +80,7 @@ public class Main {
         String Name1 = "Project1";
         ArrayList<PSA> activityList1 = new ArrayList<PSA>(Arrays.asList(Activity1));
 
-        Project project1 = new Project(Name1, "2019", "01", ABC.Name, startDate1, endDate1, activityList1, Main.employeeList);
+        Project project1 = new Project(Name1, "2019", "01", ABC.getName(), startDate1, endDate1, activityList1, employeeList);
 
         //Projekt2:
         DateType startDate2 = new DateType("05/05/2019");
@@ -66,11 +88,11 @@ public class Main {
         String Name2 = "Project2";
         ArrayList<PSA> activityList2 = new ArrayList<PSA>(Arrays.asList(Activity2));
 
-        Project project2 = new Project(Name2, "2019", "02", DEF.Name, startDate2, endDate2, activityList2, Main.employeeList);
+        Project project2 = new Project(Name2, "2019", "02", DEF.getName(), startDate2, endDate2, activityList2, employeeList);
 
         // Tilføjer projekter til projektlisten
-        Main.projectList.add(project1);
-        Main.projectList.add(project2);
+        projectList.add(project1);
+        projectList.add(project2);
 
     }
 }

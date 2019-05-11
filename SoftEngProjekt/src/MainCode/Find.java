@@ -2,90 +2,108 @@ import java.util.ArrayList;
 
 public class Find {
 
-    public static void projectOfEmployee(Employee ID) {
-        // Find Employee and call Employee.java
-        if (Main.employeeList.contains(ID)) {
-            for (int i = 0; i < Main.projectList.size(); i++) {
-                if (Main.projectList.get(i).eContains(ID)) {
-                    System.out.println("Project name: " + Main.projectList.get(i).ProjectName
-                            + "\tProjectID: " + Main.projectList.get(i).getProjectID());
-                }
-            }
-        } else {
-            System.out.println("Employee not found. Please enter employee agian(Remember All CAPS");
-        }
-    }
+	public static ArrayList<Project> projectsOfEmployee(Employee ID) {
+		// Find Employee and call Employee.java\
+		ArrayList<Project> employeeProjects = new ArrayList<Project>();
+		if (Main.getEmployees().contains(ID)) {
+			employeeProjects = new ArrayList<Project>();
+			for (int i = 0; i < Main.getProjects().size(); i++) {
+				if (Main.getProjects().get(i).eContains(ID)) {
+					employeeProjects.add(Main.getProjects().get(i));
+					//System.out.println("Project name: " + Main.getProjects().get(i).getName()
+					//		+ "\t ProjectID: " + Main.getProjects().get(i).getProjectID());
+				}
+			}
+		} 
+		return employeeProjects;
+	}
 
-    // Metode, som søger gennem projektlisten og returnerer rigtigt projekt ud fra
-    // ID
-    public static Project project(String yearID, String numID) {
-        if(Main.projectList.size() > 0) {
-            for (int i = 0; i < Main.projectList.size(); i++) {
-                if (Main.projectList.get(i).getProjectID().equals(yearID + numID)) {
-                    return Main.projectList.get(i);
-                }
-            }
-        }
-        return null;
-    }
+	// Metode, som søger gennem projektlisten og returnerer rigtigt projekt ud fra
+	// ID
+	public static Project project(String yearID, String numID) {
+		if(Main.getProjects().size() > 0) {
+			for (int i = 0; i < Main.getProjects().size(); i++) {
+				if (Main.getProjects().get(i).getProjectID().equals(yearID + numID)) {
+					return Main.getProjects().get(i);
+				}
+			}
+		}
+		return null;
+	}
 
-    public static ArrayList<Project> projectLeader(ArrayList<Project> projects, Employee EmployeeID) {
-        ArrayList<Project> leaderProjects = new ArrayList<Project>();
-        for(int i = 0; i < projects.size(); i++) {
-            if(projects.get(i).isProjectLeader(EmployeeID)) {
-                leaderProjects.add(projects.get(i));
-            }
-        }
-        return leaderProjects;
-    }
+	public static ArrayList<Project> projectLeader(ArrayList<Project> projects, Employee EmployeeID) {
+		ArrayList<Project> leaderProjects = new ArrayList<Project>();
+		for(int i = 0; i < projects.size(); i++) {
+			if(projects.get(i).isProjectLeader(EmployeeID)) {
+				leaderProjects.add(projects.get(i));
+			}
+		}
+		return leaderProjects;
+	}
 
-    public static Employee employee(String EmployeeID) {
-        for (int i = 0; i < Main.employeeList.size(); i++) {
-            if (Main.employeeList.get(i).Name.equals(EmployeeID)) {
-                return Main.employeeList.get(i);
-            }
-        }
-        return null;
-    }
+	public static Employee employee(String EmployeeID) {
+		// 1
+		for (int i = 0; i < Main.getEmployees().size(); i++) {
+			// 2
+			if (Main.getEmployees().get(i).getName().equals(EmployeeID)) {
+				return Main.getEmployees().get(i);
+			}
+		}
+		return null;
+	}
 
-    public static PSA activity(Project currentProject,String name) {
-        if(currentProject.ActivityList.size() > 0) {
-            for(int i = 0; i < currentProject.ActivityList.size(); i++) {
-                if(currentProject.ActivityList.get(i).Name.equals(name)) {
-                    return currentProject.ActivityList.get(i);
-                }
-            }
-        }
-        return null;
-    }
+	public static PSA activity(Project currentProject,String name) {
+		
+		ArrayList<PSA> activitiesForCurrentProject = currentProject.getActivities();
+		// 1
+		if(activitiesForCurrentProject.size() > 0) {
+			// 2
+			for(int i = 0; i < activitiesForCurrentProject.size(); i++) {
+				// 3
+				if(activitiesForCurrentProject.get(i).getName().equals(name)) {
+					return activitiesForCurrentProject.get(i);
+				}
+			}
+		}
+		return null;
+	}
 
-    // Adds activity to list if employee is part of it
-    public static ArrayList<PSA> activityOfEmployee(Project currentProject, Employee name){
-        ArrayList<PSA> placeholder = new ArrayList<PSA>();
-        if(currentProject.ActivityList.size() > 0) {
-            // Looks through all activities in project
-            for(int i = 0; i < currentProject.ActivityList.size(); i++) {
-                if(currentProject.ActivityList.get(i).Employees.size() > 0) {
-                    // Looks through all employees in activity and compares them to the employee
-                    for(int k = 0; k < currentProject.ActivityList.get(i).Employees.size(); k++) {
-                        if(currentProject.ActivityList.get(i).Employees.get(k).equals(name)) {
-                            placeholder.add(currentProject.ActivityList.get(i));
-                        }
-                    }
-                }
-            }
-        }
-        return placeholder;
-    }
+	// Adds activity to list if employee is part of it
+	public static ArrayList<PSA> activitiesOfEmployee(Project currentProject, Employee employeeID){
+		ArrayList<PSA> placeholder = new ArrayList<PSA>();
+		ArrayList<PSA> activitiesForCurrentProject = currentProject.getActivities();
+		// 1
+		if(activitiesForCurrentProject.size() > 0) {
+			// Looks through all activities in project
+			// 2
+			for(int i = 0; i < activitiesForCurrentProject.size(); i++) {
+				// 3
+				if(activitiesForCurrentProject.get(i).getEmployees().size() > 0) {
+					// Looks through all employees in activity and compares them to the employee
+					// 4
+					for(int k = 0; k < activitiesForCurrentProject.get(i).getEmployees().size(); k++) {
+						// 5 
+						if(activitiesForCurrentProject.get(i).getEmployees().get(k).equals(employeeID)) {
+							placeholder.add(activitiesForCurrentProject.get(i));
+						}
+					}
+				}
+			}
+		}
+		return placeholder;
+	}
 
-    public static NSA activityNSA(Employee employeeID, String activityName) {
-        if(employeeID.Activities.size() > 0) {
-            for(int i = 0; i < employeeID.Activities.size(); i++) {
-                if(employeeID.Activities.get(i).Name.equals(activityName)) {
-                    return employeeID.Activities.get(i);
-                }
-            }
-        }
-        return null;
-    }
+	public static NSA activityNSA(Employee employeeID, String activityName) {
+		// 1
+		if(employeeID.getActivities().size() > 0) {
+			// 2
+			for(int i = 0; i < employeeID.getActivities().size(); i++) {
+				// 3
+				if(employeeID.getActivities().get(i).getName().equals(activityName)) {
+					return employeeID.getActivities().get(i);
+				}
+			}
+		}
+		return null;
+	}
 }
