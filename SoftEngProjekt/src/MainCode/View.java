@@ -1,3 +1,5 @@
+package planningProject;
+
 import java.util.*;
 
 public class View {
