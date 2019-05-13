@@ -1,5 +1,3 @@
-package planningProject;
-
 public class Change {
     // Change enddate for project
     public static void enddate(Project currentProject, Employee employeeID, DateType startdate) {
@@ -147,21 +145,23 @@ public class Change {
     }
 
     // Assigns employee to activity
-    public static void assign(PSA currentActivity) {
+    public static void assign(PSA currentActivity, Project currentProject, String projectLeader) {
         boolean inputstatus = false;
         while (!inputstatus) {
             System.out.println("Please enter the ID of the employee you wish to add to the activity");
             System.out.println("To go back to activity select type: 'BACK'");
             String inputLine = Main.scanner();
-            inputstatus = checksValidInput(currentActivity, inputstatus, inputLine);
+            inputstatus = checksValidInput(currentActivity, inputstatus, inputLine, projectLeader, currentProject);
         }
     }
 
-    private static boolean checksValidInput(PSA currentActivity, boolean inputstatus, String inputLine) {
+    private static boolean checksValidInput(PSA currentActivity, boolean inputstatus, String inputLine, String projectLeader, Project currentProject) {
         if (Main.projectLeader == true && inputLine.matches("[A-Z]{3}+$")) {
             String employeeID = inputLine;
-            if(employeeDoesExist(employeeID)) {
-                inputstatus = assignEmployee(currentActivity, inputstatus, employeeID);
+            if(employeeID.equals(projectLeader)) {
+            	System.out.println("Cannot assign yourself to the activity");
+            }else if(employeeDoesExist(employeeID)) {
+                inputstatus = assignEmployee(currentActivity, inputstatus, employeeID, currentProject);
             }
         } else if (inputLine.equalsIgnoreCase("BACK")) {
             inputstatus = true;
@@ -173,9 +173,9 @@ public class Change {
         return inputstatus;
     }
 
-    private static boolean assignEmployee(PSA currentActivity, boolean inputstatus, String employeeID) {
+    private static boolean assignEmployee(PSA currentActivity, boolean inputstatus, String employeeID, Project currentProject) {
         if(!currentActivity.eContains(Find.employee(employeeID))) {
-            if(currentActivity.eContains(Find.employee(employeeID))) {
+            if(currentProject.eContains(Find.employee(employeeID))) {
                 currentActivity.addEmployee(Find.employee(employeeID));
                 System.out.println("Employee "+employeeID+" succesfully assigned to activity: "+currentActivity.getName());
                 inputstatus = true;
@@ -358,7 +358,7 @@ public class Change {
             String inputLine = Main.scanner();
             DateType activityStartDate = newValidNSAStartDate(inputLine,enddate);
             if(activityStartDate != null) {
-                currentNSA.setEndDate(activityStartDate);
+                currentNSA.setStartDate(activityStartDate);
                 System.out.println("Startdate has been changed to: "+activityStartDate.toString());
                 break;
             } else if (inputLine.equalsIgnoreCase("CANCEL")) {

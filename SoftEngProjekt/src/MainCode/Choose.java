@@ -1,4 +1,3 @@
-package planningProject;
 
 import java.util.ArrayList;
 
@@ -10,12 +9,11 @@ public class Choose {
     public static void activity(PSA currentActivity, Project currentProject, boolean projectLeader, Employee employeeID) {
         // Local variable declaration
         String inputLine;
-        boolean inputStatus = false;
 
-        System.out.println("Menu for activity "+currentActivity.getName());
+        while(true) {
 
-        while(!inputStatus) {
-
+            System.out.println("Menu for activity "+currentActivity.getName());
+            
             timeLeftofActivity(currentActivity);
 
             if(!projectLeader) {
@@ -29,15 +27,14 @@ public class Choose {
 
             inputLine = Main.scanner();
 
-            inputStatus = readPSAInput(currentActivity, currentProject, projectLeader, employeeID, inputLine,
-                    inputStatus);
-
             projectLeaderCommands(currentActivity, currentProject, projectLeader, employeeID, inputLine);
+            
+            readPSAInput(currentActivity, currentProject, projectLeader, employeeID, inputLine);
         }
     }
 
-    private static boolean readPSAInput(PSA currentActivity, Project currentProject, boolean projectLeader,
-                                        Employee employeeID, String inputLine, boolean inputStatus) {
+    private static void readPSAInput(PSA currentActivity, Project currentProject, boolean projectLeader,
+                                        Employee employeeID, String inputLine) {
         if(inputLine.equalsIgnoreCase("ADD") && !projectLeader) {
             Change.add(currentActivity);
             activity(currentActivity, currentProject, projectLeader, employeeID);
@@ -45,9 +42,10 @@ public class Choose {
             Change.getHelp(currentActivity, projectLeader, currentProject);
             activity(currentActivity, currentProject, projectLeader, employeeID);
         } else if(inputLine.equalsIgnoreCase("BACK")) {
-            inputStatus = true;
+            View.overview(employeeID);
+        } else {
+        	System.out.println("Wrong format, please try again");
         }
-        return inputStatus;
     }
 
     private static void projectLeaderCommands(PSA currentActivity, Project currentProject, boolean projectLeader,
@@ -61,7 +59,7 @@ public class Choose {
 
                 // Assign employee
             } else if(inputLine.equalsIgnoreCase("ASSIGN")) {
-                Change.assign(currentActivity);
+                Change.assign(currentActivity, currentProject, employeeID.getName());
                 activity(currentActivity, currentProject, projectLeader, employeeID);
 
                 // Unassign employee
@@ -71,9 +69,16 @@ public class Choose {
 
             } else if(inputLine.equalsIgnoreCase("ENDDATE")) {
                 Change.newPSAEndDate(currentActivity, currentActivity.getStartDate());
-
+                activity(currentActivity,currentProject,projectLeader,employeeID);
+                
             } else if(inputLine.equalsIgnoreCase("NEWNAME")) {
                 Change.newPSAName(currentProject, currentActivity);
+                activity(currentActivity, currentProject, projectLeader, employeeID);
+                
+            } else if(inputLine.equalsIgnoreCase("REMOVE") && currentActivity.getAssistants().size() > 0) {
+            	Change.removeHelp(currentActivity, projectLeader, currentProject);
+            	activity(currentActivity, currentProject, projectLeader, employeeID);
+            	
             }
         }
     }
@@ -89,11 +94,21 @@ public class Choose {
             } else {
                 System.out.println("This activity has no employees assigned");
             }
+            if(currentActivity.getAssistants().size() > 0) {
+            	System.out.println("List of assistants in activity: "+currentActivity.getName());
+            	for(int i = 0; i < currentActivity.getAssistants().size(); i++) {
+            		System.out.println(currentActivity.getAssistants().get(i).getName());
+            	}
+            	System.out.println("");
+            }
+            
             System.out.println("To change activity's enddate: Please type 'ENDDATE'");
             System.out.println("To change expected number of hours: Please type 'CHANGE'");
             System.out.println("To assign an employee to the activity: Please type 'ASSIGN'");
             System.out.println("To unassign an employee from the activity: Please type 'UNASSIGN'");
-            System.out.println("To unassign assistant from the activity: Please type 'REMOVE'");
+            if(currentActivity.getAssistants().size() > 0) {
+            	System.out.println("To unassign assistant from the activity: Please type 'REMOVE'");
+            }
         }
     }
 
@@ -118,7 +133,9 @@ public class Choose {
             System.out.println("To change the expected end date: Please type ENDDATE");
             System.out.println("To change the project name: Please type 'NEWNAME'");
             System.out.println("To create an activity: Please type 'NEWACT'");
-            System.out.println("To remove an activity: Please type: 'REMOVE'");
+            if(currentProject.getActivities().size() > 0) {
+            	System.out.println("To remove an activity: Please type: 'REMOVE'");
+            }
             System.out.println("To generate a report: Please type 'REPORT'");
         }
 
@@ -243,7 +260,7 @@ public class Choose {
                 Change.newNSAEndDate(currentNSA, currentNSA.getStartDate());
                 NSA(currentNSA, employeeID);
             } else if(inputLine.equalsIgnoreCase("BACK")) {
-                break;
+                View.overview(employeeID);
             }
 
         }

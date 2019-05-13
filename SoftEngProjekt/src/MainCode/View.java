@@ -1,4 +1,3 @@
-package planningProject;
 
 import java.util.*;
 
@@ -60,13 +59,13 @@ public class View {
             if(hasNSA) {
                 System.out.println("To go to a specific personal activity: Please type the actvity name");
             }
-            System.out.println("To create an activity: Please type 'CREATE'");
-            System.out.println("To delete an activity: Please type 'REMOVE'");
+            System.out.println("To create a personal activity: Please type 'CREATE'");
+            System.out.println("To delete a personal activity: Please type 'REMOVE'");
             System.out.println("To log out: Please type 'LOGOUT'");
             String inputLine = Main.scanner();
             Project currentProject = validProject(inputLine);
             NSA currentNSA = Find.activityNSA(employeeID, inputLine);
-            inputStatus = readUserInput(employeeID, inputStatus, inputLine, currentProject, currentNSA);
+            readUserInput(employeeID, inputLine, currentProject, currentNSA);
         }
     }
 
@@ -82,7 +81,7 @@ public class View {
         return false;
     }
 
-    private static boolean readUserInput(Employee employeeID, boolean inputStatus, String inputLine,
+    private static void readUserInput(Employee employeeID, String inputLine,
                                          Project currentProject, NSA currentNSA) {
         if(currentProject != null) {
             Choose.project(currentProject, employeeID);
@@ -94,21 +93,20 @@ public class View {
             Create.newNSA(employeeID);
             overview(employeeID);
         } else if(inputLine.equalsIgnoreCase("LOGOUT")) {
-            inputStatus = true;
+            login();
         } else if(inputLine.equalsIgnoreCase("REMOVE")) {
             Change.removeNSA(employeeID);
             overview(employeeID);
         } else {
             System.out.println("Wrong format, please try again");
         }
-        return inputStatus;
     }
 
     private static void printAllProjectsAssignedToEmploye(Employee employeeID) {
         ArrayList<Project> employeeProjects = Find.projectsOfEmployee(employeeID);
         if(employeeProjects != null) {
         	for(int i = 0; i < employeeProjects.size(); i++) {
-        		System.out.println(employeeProjects.get(i).getName());
+        		System.out.println("Project name: "+employeeProjects.get(i).getName()+" \t Project ID: "+employeeProjects.get(i).getProjectID());
         	}
         } else {
 			System.out.println("Employee not found. Please enter employee agian");
@@ -146,15 +144,17 @@ public class View {
     }
 
     public static void activity(Project project, boolean projectLeader){
-        System.out.println("List of activities for project: "+project.getName());
         ArrayList<PSA> activities = project.getActivities();
+        System.out.println("");
         if(activities.size() < 1) {
             System.out.println("Project has no activities");
         } else {
+            System.out.println("List of activities for project: "+project.getName());
             for(int i = 0; i < activities.size(); i++) {
                 System.out.println(activities.get(i).getName());
             }
         }
+        System.out.println("");
     }
 
     public static void report(Project project) {
@@ -181,7 +181,7 @@ public class View {
             }
         }
         // Prints assistants in project
-        if(project.getAssistants().size() != 0) {
+        if(project.getAssistants().size() > 0) {
             System.out.println("\r\n");
             System.out.printf("%42s", "Assistants in project:\r\n");
             for(int i = 0; i < project.getAssistants().size(); i++) {

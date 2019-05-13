@@ -1,4 +1,3 @@
-package planningProject;
 
 import java.util.ArrayList;
 
@@ -16,17 +15,17 @@ public class PSA extends Activity {
 	}
 
 	// Methods
-	public boolean addHelp(Employee ID, Project Number) {
+	public boolean addHelp(Employee ID, Project projectID) {
 
 		// Preconditions
 		assert ID != null;
-		assert Number != null;
+		assert projectID != null;
 		assert assistants != null;
 		assert employees != null;
 
 		if (!assistants.contains(ID) && !employees.contains(ID)) {
 			assistants.add(ID);
-			Number.addHelp(ID);
+			projectID.addHelp(ID);
 
 			// Postconditions
 			assert assistants.contains(ID);

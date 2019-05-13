@@ -1,4 +1,3 @@
-package planningProject;
 
 public class NSA extends Activity {
     String ID;

@@ -1,5 +1,3 @@
-package planningProject;
-
 import java.util.ArrayList;
 
 public class Create {

@@ -1,5 +1,3 @@
-package planningProject;
-
 public abstract class Activity {
 
     public String name;

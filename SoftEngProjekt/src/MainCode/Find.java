@@ -1,6 +1,4 @@
-package planningProject;
 
-import static org.junit.Assert.assertArrayEquals;
 
 import java.util.ArrayList;
 
