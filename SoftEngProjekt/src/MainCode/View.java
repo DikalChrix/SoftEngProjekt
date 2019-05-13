@@ -93,7 +93,8 @@ public class View {
             Create.newNSA(employeeID);
             overview(employeeID);
         } else if(inputLine.equalsIgnoreCase("LOGOUT")) {
-            login();
+            System.out.println("Succesfully logged out user with ID: "+employeeID.getName()+"\r\n");
+        	login();
         } else if(inputLine.equalsIgnoreCase("REMOVE")) {
             Change.removeNSA(employeeID);
             overview(employeeID);
